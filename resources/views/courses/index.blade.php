@@ -11,6 +11,12 @@
             width: 850px;
             margin-left: 340px;
           }
+          .input-group{
+            color: black;
+    background: white;
+    border: black;
+    margin-left: 10px;
+          }
     </style>
     <!-- Required meta tags -->
     <meta charset="utf-8">
@@ -43,9 +49,16 @@
         </li>
         
       </ul>
-      <form class="d-flex">
-        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-success" style="color:white;" type="submit">Search</button>
+      <form action="/coursesearch" method="POST" role="search">
+      {{ csrf_field() }}
+      <div class="input-group">
+          <input type="text" class="form-control" name="q"
+              placeholder="Search users"> <span class="input-group-btn">
+              <button type="submit" class="btn btn-default">
+                  <span class="glyphicon glyphicon-search" > search</span>
+              </button>
+          </span>
+      </div>
       </form>
     </div>
   </div>
@@ -94,6 +107,7 @@
 @endforeach    
 </tbody>  
 </table>
+{{$courses->links('pagination::bootstrap-4')}}
         </div>
     <!-- Optional JavaScript; choose one of the two! -->
 

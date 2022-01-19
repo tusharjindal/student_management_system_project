@@ -89,7 +89,7 @@
     </thead> 
   
     <tbody>  
-    @foreach($admins as $admin)  
+    @foreach($details as $admin)  
         <tr border="none">  
             <td>{{$admin->adminid}}</td>  
             <td>{{$admin->name}}</td>  
@@ -118,7 +118,6 @@
 </tbody>  
 </table>
         </div>
-{{$admins->links('pagination::bootstrap-4')}}
 
     <!-- Optional JavaScript; choose one of the two! -->
 

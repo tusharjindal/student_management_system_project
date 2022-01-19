@@ -25,7 +25,7 @@
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 
-    <title>Admin List</title>
+    <title>Course List</title>
 
     <nav class="navbar navbar-expand-lg navbar-light bg-dark ">
   <div class="container-fluid">
@@ -49,7 +49,7 @@
         </li>
         
       </ul>
-      <form action="/adminsearch" method="POST" role="search">
+      <form action="/coursesearch" method="POST" role="search">
       {{ csrf_field() }}
       <div class="input-group">
           <input type="text" class="form-control" name="q"
@@ -69,18 +69,12 @@
   <table class="table table-success table-striped">
       <thead>  
       <tr>
-        <th colspan="11" >ADMIN LIST</th>
+        <th colspan="11" >COURSE LIST</th>
     <tr class="table-success">  
     <td>  
-    ID </td>  
+    Course ID </td>  
     <td>  
-    Name </td>  
-    <td>  
-    Email </td>  
-    <td>  
-    Contact number </td>  
-    <td>  
-    Address </td>  
+    Course Name </td>  
     <td>  
     Delete </td> 
     <td>  
@@ -89,24 +83,20 @@
     </thead> 
   
     <tbody>  
-    @foreach($admins as $admin)  
+@foreach($details as $course)  
         <tr border="none">  
-            <td>{{$admin->adminid}}</td>  
-            <td>{{$admin->name}}</td>  
-            <td>{{$admin->email}}</td>  
-            <td>{{$admin->number}}</td>  
-            <td>{{$admin->Address}}</td> 
-            
+            <td>{{$course->Cid}}</td>  
+            <td>{{$course->CourseName}}</td>  
+
 <td >  
-<form action="{{ route('admins.destroy', $admin->adminid)}}" method="post">  
+<form action="{{ route('courses.destroy', $course->Cid)}}" method="post">  
 <input type="hidden" name="_token" value="{{ csrf_token() }}" />
 <input name="_method" type="hidden" value="DELETE">
-                  <!-- @method('DELETE')   -->
                   <button class="btn btn-danger" type="submit">Delete</button>  
                 </form>  
 </td>  
 <td >  
-<form action="{{ route('admins.edit', $admin->adminid)}}" method="GET">  
+<form action="{{ route('courses.edit', $course->Cid)}}" method="GET">  
 <input type="hidden" name="_token" value="{{ csrf_token() }}" />
                    
                   <button class="btn btn-danger" type="submit">Edit</button>  
@@ -118,8 +108,6 @@
 </tbody>  
 </table>
         </div>
-{{$admins->links('pagination::bootstrap-4')}}
-
     <!-- Optional JavaScript; choose one of the two! -->
 
     <!-- Option 1: Bootstrap Bundle with Popper -->

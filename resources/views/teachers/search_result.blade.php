@@ -3,13 +3,16 @@
 <html lang="en">
   <head>
     <style>
+      body{
+        background-color: aliceblue;
+      }
       .table-success{
           margin-top: 100px;
           /* width: 100px;
           margin-left: 20pc;} */}
           .boxbox{
-            width: 850px;
-            margin-left: 340px;
+            width: 180px;
+    margin-left: 400px;
           }
           .input-group{
             color: black;
@@ -25,7 +28,7 @@
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 
-    <title>Admin List</title>
+    <title>Teacher List</title>
 
     <nav class="navbar navbar-expand-lg navbar-light bg-dark ">
   <div class="container-fluid">
@@ -65,11 +68,11 @@
 </nav>
   </head>
   <body style=" background-color: aliceblue;">
-  <div class="boxbox" style="text-align:center">
+  <div class='boxbox'>
   <table class="table table-success table-striped">
       <thead>  
       <tr>
-        <th colspan="11" >ADMIN LIST</th>
+        <th colspan="11" style="text-align:center">TEACHER LIST</th>
     <tr class="table-success">  
     <td>  
     ID </td>  
@@ -80,7 +83,9 @@
     <td>  
     Contact number </td>  
     <td>  
-    Address </td>  
+    Designation </td>  
+    <td>  
+    Speciality </td>  
     <td>  
     Delete </td> 
     <td>  
@@ -89,16 +94,17 @@
     </thead> 
   
     <tbody>  
-    @foreach($admins as $admin)  
+    @foreach($details as $teacher)  
         <tr border="none">  
-            <td>{{$admin->adminid}}</td>  
-            <td>{{$admin->name}}</td>  
-            <td>{{$admin->email}}</td>  
-            <td>{{$admin->number}}</td>  
-            <td>{{$admin->Address}}</td> 
+            <td>{{$teacher->Tid}}</td>  
+            <td>{{$teacher->name}}</td>  
+            <td>{{$teacher->email}}</td>  
+            <td>{{$teacher->number}}</td>  
+            <td>{{$teacher->designation}}</td> 
+            <td>{{$teacher->speciality}}</td>  
             
 <td >  
-<form action="{{ route('admins.destroy', $admin->adminid)}}" method="post">  
+<form action="{{ route('teachers.destroy', $teacher->Tid)}}" method="post">  
 <input type="hidden" name="_token" value="{{ csrf_token() }}" />
 <input name="_method" type="hidden" value="DELETE">
                   <!-- @method('DELETE')   -->
@@ -106,20 +112,18 @@
                 </form>  
 </td>  
 <td >  
-<form action="{{ route('admins.edit', $admin->adminid)}}" method="GET">  
+<form action="{{ route('teachers.edit', $teacher->Tid)}}" method="GET">  
 <input type="hidden" name="_token" value="{{ csrf_token() }}" />
                    
                   <button class="btn btn-danger" type="submit">Edit</button>  
-                </form>  
+                </form>    
 </td>  
   
          </tr>  
-@endforeach    
+@endforeach  
 </tbody>  
 </table>
         </div>
-{{$admins->links('pagination::bootstrap-4')}}
-
     <!-- Optional JavaScript; choose one of the two! -->
 
     <!-- Option 1: Bootstrap Bundle with Popper -->
