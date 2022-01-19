@@ -3,10 +3,17 @@
 <html lang="en">
   <head>
     <style>
+      body{
+        background-color: aliceblue;
+      }
       .table-success{
           margin-top: 100px;
           /* width: 100px;
           margin-left: 20pc;} */}
+          .boxbox{
+            width: 180px;
+    margin-left: 400px;
+          }
     </style>
     <!-- Required meta tags -->
     <meta charset="utf-8">
@@ -28,6 +35,8 @@
         <li class="nav-item">
           <a class="nav-link active" style="color:white;" aria-current="page" href="{{ url('/newhome') }}">Home</a>
         </li>
+        </ul>
+        <ul class="navbar-nav ml-auto">
         <li class="nav-item">
           <a class="nav-link" style="color:white;" href="{{ route('logout') }}" onclick="event.preventDefault(); 
           document.getElementById('logout-form').submit();">Logout</a>
@@ -45,12 +54,12 @@
   </div>
 </nav>
   </head>
-  <body>
-  <div>
+  <body style=" background-color: aliceblue;">
+  <div class='boxbox'>
   <table class="table table-success table-striped">
       <thead>  
       <tr>
-        <th colspan="11" >TEACHER LIST</th>
+        <th colspan="11" style="text-align:center">TEACHER LIST</th>
     <tr class="table-success">  
     <td>  
     ID </td>  

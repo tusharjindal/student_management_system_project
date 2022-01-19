@@ -16,11 +16,11 @@ class StudentController extends Controller
      */
     public function index()
     {
-       
+      
         // $students = Students::paginate(2); 
         $students = DB::table('students')
         ->leftJoin('users', 'students.Studentid', '=', 'users.id')
-        ->paginate(1);
+        ->paginate(3);
         return view('students.index', compact('students'));  
     }
 
@@ -31,7 +31,9 @@ class StudentController extends Controller
      */
     public function create()
     {
-        return view('students.create');
+        $courses = DB::table('courses')->pluck("CourseName","Cid");
+        return view('students.create',compact('courses'));
+        
     }
 
     /**
@@ -42,7 +44,18 @@ class StudentController extends Controller
      */
     public function store(Request $request)
     {
-        
+        $this->validate($request, [
+            'Studentid' => 'required',
+            'email' => 'required|email',
+            'name' => 'required|min:4',
+            'number' => 'required',
+            'Address' => 'required',
+            'courseid' => 'required',
+            'Birth' => 'required',
+            'Grades' => 'required',
+            'Mentor' => 'required',
+        ]);
+
         $student=new Students();
         $student->Studentid=$request->input('Studentid');
         //$student->name=$request->input('name');
@@ -50,7 +63,7 @@ class StudentController extends Controller
         $student->number=$request->input('number');
         $student->Birth=$request->input('Birth');
         $student->Address=$request->input('Address');
-       // $student->Course=$request->input('Course');
+        $student->courseid=$request->input('courseid');
         $student->Grades=$request->input('Grades');
         $student->Mentor=$request->input('Mentor');
         $student->save();
@@ -89,7 +102,8 @@ class StudentController extends Controller
     public function edit($id)
     {
         $student= Students::find($id);  
-        return view('students.edit', compact('student'));  
+        $user= User::find($id);  
+        return view('students.edit', compact('student'),compact('user'));  
     }
 
     /**
@@ -101,16 +115,29 @@ class StudentController extends Controller
      */
     public function update(Request $request, $Studentid)
     {
+        $this->validate($request, [
+          
+            'email' => 'required|email',
+            'name' => 'required|min:4',
+            'number' => 'required',
+            'Address' => 'required',
+            'Birth' => 'required',
+            'Grades' => 'required',
+            'Mentor' => 'required',
+        ]);
+
         $student = Students::find($Studentid);  
-        //$student->name =$request->get('name');  
-        //$student->email =$request->get('email');
         $student->number =$request->get('number');  
         $student->Birth =$request->get('Birth');  
         $student->Address =$request->get('Address');  
-        //$student->Course =$request->get('Course');  
         $student->Grades =$request->get('Grades'); 
         $student->Mentor =$request->get('Mentor');   
         $student->save();  
+
+        $user = User::find($Studentid);  
+        $user->name=$request->input('name');
+        $user->email=$request->input('email');
+        $user->save();
         return redirect('/home');
     }
 
@@ -124,6 +151,10 @@ class StudentController extends Controller
     {
         $student=Students::find($Studentid);  
         $student->delete();  
+        $user=User::find($Studentid); 
+        $user->delete();
         return redirect('/home');
     }
+
+   
 }

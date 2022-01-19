@@ -5,6 +5,12 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\User;
+use Illuminate\Support\Facades\Hash;
+use Validator;
+use App\Admin;
+use DB;
+use App\Teachers;
+use App\Students;
 class HomeController extends Controller
 {
     /**
@@ -26,17 +32,18 @@ class HomeController extends Controller
     public function index()
     {
         $role = Auth::user()->role;
+        $name = Auth::user()->name;
         if ($role == User::ROLE_TYPE_ADMIN) 
         {
-            return view('admin.home');
+            return view('admin.home',compact('name'));
         } 
         else if($role ==User::ROLE_TYPE_TEACHER ) 
         {
-            return view('teachers.home');
+            return view('teachers.home',compact('name'));
         }
         else if($role ==User::ROLE_TYPE_STUDENT) 
         {
-            return view('students.home');
+            return view('students.home',compact('name'));
         }
         else
         {
@@ -61,23 +68,84 @@ class HomeController extends Controller
     public function role()
     {
         $role = Auth::user()->role;
-        
+        $name = Auth::user()->name;
             if ($role == User::ROLE_TYPE_ADMIN) 
             {
-                return view('admin.home');
+                return view('admin.home',compact('name'));
             } 
             else if($role ==User::ROLE_TYPE_TEACHER ) 
             {
-                return view('teachers.home');
+                return view('teachers.home',compact('name'));
             }
             else if($role ==User::ROLE_TYPE_STUDENT) 
             {
-                return view('students.home');
+                return view('students.home',compact('name'));
             }
             else
             {
                 return view('home');
             }
        
+    }
+    public function showChangePasswordForm(){
+        return view('auth.changepassword');
+    }
+
+    public function changePassword(Request $request){
+
+        if (!(Hash::check($request->get('current-password'), Auth::user()->password))) {
+            // The passwords matches
+            return redirect()->back()->with("error","Your current password does not matches with the password you provided. Please try again.");
+        }
+
+        if(strcmp($request->get('current-password'), $request->get('new-password')) == 0){
+            //Current password and new password are same
+            return redirect()->back()->with("error","New Password cannot be same as your current password. Please choose a different password.");
+        }
+
+        
+
+        $this->validate($request, [
+            'current-password' => 'required',
+            'new-password' => 'required|string|min:6|confirmed|regex:/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{6,}$/',
+        ]);
+
+        //Change Password
+        $user = Auth::user();
+        $user->password = bcrypt($request->get('new-password'));
+        $user->save();
+
+        return redirect()->back()->with("success","Password changed successfully !");
+
+    }
+
+    public function ShowProfile(){
+
+        //echo  Auth::user();
+        $role = Auth::user()->role;
+        $id= Auth::user()->id;
+       
+            if ($role == User::ROLE_TYPE_ADMIN) 
+            {
+                $admins= Admin::find($id);  
+                $user= User::find($id);  
+                return view('admin.showprofile', compact('admins'),compact('user')); 
+            } 
+            else if($role ==User::ROLE_TYPE_TEACHER ) 
+            {
+                $teachers= Teachers::find($id);  
+                $user= User::find($id);  
+                return view('teachers.showprofile', compact('teachers'),compact('user')); 
+            }
+            else if($role ==User::ROLE_TYPE_STUDENT) 
+            {
+                $students= Students::find($id);  
+                $user= User::find($id);  
+                return view('students.showprofile', compact('students'),compact('user')); 
+            }
+            else
+            {
+                return view('home');
+            }
     }
 }

@@ -9,7 +9,7 @@
     border: solid;
     padding: 15px;
     border-width: thin;
-    margin-top: 20px;
+    margin-top: 80px;
     box-shadow: 0 8px 16px rgba(0,0,0,.3);
       }
   </style>
@@ -20,7 +20,7 @@
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 
-    <title>create student</title>
+    <title>create admin</title>
     <nav class="navbar navbar-expand-lg navbar-light bg-dark ">
   <div class="container-fluid">
     <a class="navbar-brand" style="color:white;" href="{{ url('/newhome') }}">Student Management System</a>
@@ -32,6 +32,8 @@
         <li class="nav-item">
           <a class="nav-link active" style="color:white;" aria-current="page" href="{{ url('/newhome') }}">Home</a>
         </li>
+        </ul>
+        <ul class="navbar-nav ml-auto">
         <li class="nav-item">
           <a class="nav-link" style="color:white;" href="{{ route('logout') }}" onclick="event.preventDefault(); 
           document.getElementById('logout-form').submit();">Logout</a>
@@ -46,10 +48,10 @@
   </div>
 </nav>
   </head>
-  <body>
-      <div class="form_stud">
+  <body style=" background-color: aliceblue;">
+      <div class="form_stud" style=" background-color: white;">
       <form method="post" action="{{url('admins')}}">
-          <h3>Enter Admin Details</h3>
+          <h3 style="text-align:center">Enter Admin Details</h3>
                         
                         <div class="form-group">
                         <div class="form-group">
@@ -77,6 +79,16 @@
                         <input type="reset" class="btn btn-warning" value="Reset">
                         <input type="hidden" name="_token" value="{{ csrf_token() }}" />
 
+                        
+                           @if ($errors->any())
+                           <div class="alert alert-danger">
+                           <script>     
+                           alert("please fill the form properly"); 
+                           </script>;
+                           </div>
+                           @endif
+ 
+        <!--error ends-->
                     </form>
 </div>
     <!-- Optional JavaScript; choose one of the two! -->

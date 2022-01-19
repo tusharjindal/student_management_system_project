@@ -40,6 +40,16 @@ class AdminController extends Controller
      */
     public function store(Request $request)
     {
+        $this->validate($request, [
+          
+            'adminid' => 'required',
+            'Email' => 'required|email',
+            'Name' => 'required|min:4',
+            'number' => 'required',
+            'Address' => 'required',
+            
+        ]);
+
         $validator =Validator::make($request->all(), [
 
             'Name'=>'required',
@@ -47,8 +57,6 @@ class AdminController extends Controller
 
         $admin=new Admin();
         $admin->adminid=$request->input('adminid');
-        //$admin->Name=$request->input('Name');
-        //$admin->Email=$request->input('Email');
         $admin->number=$request->input('number');
         $admin->Address=$request->input('Address');
         $admin->save();
@@ -71,7 +79,7 @@ class AdminController extends Controller
      */
     public function show($id)
     {
-        //
+      //
     }
 
     /**
@@ -83,7 +91,8 @@ class AdminController extends Controller
     public function edit($id)
     {
         $admin= Admin::find($id);  
-        return view('admin.edit', compact('admin')); 
+        $user= User::find($id);  
+        return view('admin.edit', compact('admin'),compact('user')); 
     }
 
     /**
@@ -93,21 +102,27 @@ class AdminController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $adminid)
+    public function update(Request $request, $id)
     {
-        $admin= Admin::find($adminid);  
-       // $admin->Name=$request->input('Name');
-       /// $admin->Email=$request->input('Email');
+
+        $this->validate($request, [
+          
+            'Email' => 'required|email',
+            'Name' => 'required|min:4',
+            'number' => 'required',
+            'address' => 'required',
+            
+        ]);
+
+        $admin=Admin::find($id);  
+        $admin->Address=$request->input('address');
         $admin->number=$request->input('number');
-        $admin->Address=$request->input('Address');
         $admin->save();
-    
-        // $user=User::find();
-        // $user->Name=$request->input('Name');
-        // $user->Email=$request->input('Email');
-        // $user->password = bcrypt('secret');
-        // $user->role=0;
-        // $user->save();
+        $user=User::find($id);
+        $user->name=$request->input('Name');
+        $user->email=$request->input('Email');
+        $user->save();
+        $admin->save();
         return redirect('/home');
     }
 
@@ -121,6 +136,8 @@ class AdminController extends Controller
     {
         $admin=Admin::find($adminid);  
         $admin->delete();  
+        $user=User::find($adminid);
+        $user->delete();
         return redirect('/home');
     }
 }

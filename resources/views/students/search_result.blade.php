@@ -7,10 +7,6 @@
           margin-top: 100px;
           /* width: 100px;
           margin-left: 20pc;} */}
-          .boxbox{
-            width: 850px;
-            margin-left: 340px;
-          }
     </style>
     <!-- Required meta tags -->
     <meta charset="utf-8">
@@ -19,7 +15,7 @@
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 
-    <title>Course List</title>
+    <title>Student List</title>
 
     <nav class="navbar navbar-expand-lg navbar-light bg-dark ">
   <div class="container-fluid">
@@ -45,23 +41,38 @@
       </ul>
       <form class="d-flex">
         <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-success" style="color:white;" type="submit">Search</button>
+        <button class="btn btn-outline-success" name='q' href="{{ url('/search')}}" style="color:white;" type="submit">Search</button>
       </form>
     </div>
   </div>
 </nav>
   </head>
-  <body style=" background-color: aliceblue;">
-  <div class="boxbox" style="text-align:center">
+  <body>
+  <div>
+  @if(isset($details))
   <table class="table table-success table-striped">
       <thead>  
       <tr>
-        <th colspan="11" >COURSE LIST</th>
+
+        <th colspan="11" >STUDENT LIST</th>
     <tr class="table-success">  
     <td>  
-    Course ID </td>  
+    ID </td>  
     <td>  
-    Course Name </td>  
+    Name </td>  
+    <td>  
+    Email </td>  
+    <td>  
+    Contact number </td>  
+    <td>  
+    D.O.B. </td>  
+    <td>  
+    Address </td> 
+ 
+    <td>  
+    Grade </td> 
+    <td>  
+    Mentor </td> 
     <td>  
     Delete </td> 
     <td>  
@@ -70,20 +81,28 @@
     </thead> 
   
     <tbody>  
-@foreach($courses as $course)  
+@foreach($details as $student)  
         <tr border="none">  
-            <td>{{$course->Cid}}</td>  
-            <td>{{$course->CourseName}}</td>  
-
+            <td>{{$student->Studentid}}</td>  
+            <td>{{$student->name}}</td>  
+            <td>{{$student->email}}</td>  
+            <td>{{$student->number}}</td>  
+            <td>{{$student->Birth}}</td> 
+            <td>{{$student->Address}}</td>  
+            
+            <td>{{$student->Grades}}</td> 
+            <td>{{$student->Mentor}}</td> 
+            
 <td >  
-<form action="{{ route('courses.destroy', $course->Cid)}}" method="post">  
+<form action="{{ route('students.destroy', $student->Studentid)}}" method="post">  
 <input type="hidden" name="_token" value="{{ csrf_token() }}" />
 <input name="_method" type="hidden" value="DELETE">
+                  
                   <button class="btn btn-danger" type="submit">Delete</button>  
                 </form>  
 </td>  
 <td >  
-<form action="{{ route('courses.edit', $course->Cid)}}" method="GET">  
+<form action="{{ route('students.edit', $student->Studentid)}}" method="GET">  
 <input type="hidden" name="_token" value="{{ csrf_token() }}" />
                    
                   <button class="btn btn-danger" type="submit">Edit</button>  
@@ -91,14 +110,16 @@
 </td>  
   
          </tr>  
-@endforeach    
+@endforeach  
 </tbody>  
 </table>
+@endif
+
         </div>
     <!-- Optional JavaScript; choose one of the two! -->
 
     <!-- Option 1: Bootstrap Bundle with Popper -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script> -->
 
     <!-- Option 2: Separate Popper and Bootstrap JS -->
     <!--

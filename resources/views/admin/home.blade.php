@@ -10,8 +10,8 @@
 .card {
     
   margin-top:20px;
-  margin-right:10px;
-  margin-left:270px;
+  margin-right:0px;
+  margin-left:370px;
   float: left;
   width: 25%;
   padding: 10px 10px;
@@ -56,6 +56,7 @@ body{
     background: black;
     position: fixed;
     top: 100;
+    margin-right:170px;
     left: 0;
     width: 250px;
     height: 100%;
@@ -130,7 +131,7 @@ ul.ba {
 
     <title>home page</title>
 
-    <nav class="navbar navbar-expand-lg navbar-light bg-dark ">
+    <nav class="navbar sticky-top navbar-expand-lg navbar-light bg-dark ">
   <div class="container-fluid">
     <a class="navbar-brand" style="color:white;" href="{{ url('/newhome') }}">Student Management Project</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -141,6 +142,8 @@ ul.ba {
         <li class="nav-item">
           <a class="nav-link active" style="color:white;" aria-current="page" href="{{ url('/newhome') }}">Home</a>
         </li>
+        </ul>
+        <ul class="navbar-nav ml-auto">
         <li class="nav-item">
           <a class="nav-link" style="color:white;" href="{{ route('logout') }}" onclick="event.preventDefault(); 
           document.getElementById('logout-form').submit();">Logout</a>
@@ -161,18 +164,18 @@ ul.ba {
            <!--profile image & text-->
            <div class="profile">
                 <img src="uploads/admin.png" alt="profile_picture">
-                <h3>Name</h3>
+                <h3>{{$name}}</h3>
                 <p>Admin</p>
             </div>
             <!--menu item-->
             <ul style="list-style-type: none;">
                 <li>
-                    <a href="#" class="active" style="text-decoration:none">
+                    <a href="{{ url('/newhome') }}" class="active" style="text-decoration:none">
                         <span class="item">Home</span>
                     </a>
                 </li>
                 <li>
-                    <a href="#" style="text-decoration:none">
+                    <a href="{{url('/showprofile')}}" style="text-decoration:none">
                         <span class="item">View Profile</span>
                     </a>
                 </li>
@@ -203,7 +206,7 @@ ul.ba {
                     </a>
                 </li> -->
                 <li>
-                    <a href="#" style="text-decoration:none">
+                    <a href="{{url('/changePassword')}}" style="text-decoration:none">
                         <span class="item">Change Password</span>
                     </a>
                 </li>
@@ -211,9 +214,63 @@ ul.ba {
         </div>
         </div>
   </head>
-  <body>
+  <body style=" background-color: aliceblue;">
   <div class="cards">
-  <div class="card" style="width: 10rem;">
+  <div class="card" style="width: 18rem;">
+  <img src='uploads/student.jpg' width="150" height="250" margin='auto' class="card-img-top" alt="...">
+  <div class="card-body">
+    <h5 class="card-title">Student</h5>
+    <p class="card-text">Perform required operations on student</p>
+  </div>
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item"><a style="text-decoration:none" href="{{route('students.create')}}" class="card-link">Add a student</a></li>
+    <li class="list-group-item"><a style="text-decoration:none" href="{{route('students.index')}}" class="card-link">View all students</a></li>
+    
+  </ul>
+ 
+</div>
+<div class="card" style="width: 18rem;">
+  <img src='uploads/course.png' width="150" height="250" margin='auto' class="card-img-top" alt="...">
+  <div class="card-body">
+    <h5 class="card-title">Course</h5>
+    <p class="card-text">Perform required operations on course</p>
+  </div>
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item"><a style="text-decoration:none" href="{{route('courses.create')}}" class="card-link">Add a course</a></li>
+    <li class="list-group-item"><a style="text-decoration:none" href="{{route('courses.index')}}" class="card-link">View all courses</a></li>
+    
+  </ul>
+ 
+</div>
+<div class="card" style="width: 18rem;">
+  <img src='uploads/teacher.png' width="150" height="250" margin='auto' class="card-img-top" alt="...">
+  <div class="card-body">
+    <h5 class="card-title">Teacher</h5>
+    <p class="card-text">Perform required operations on teacher</p>
+  </div>
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item"><a style="text-decoration:none" href="{{route('teachers.create')}}" class="card-link">Add a teacher</a></li>
+    <li class="list-group-item"><a style="text-decoration:none" href="{{route('teachers.index')}}" class="card-link">View all teachers</a></li>
+    
+  </ul>
+  </div>
+<div class="card" style="width: 18rem;">
+  <img src='uploads/admin.png' width="150" height="250" margin='auto' class="card-img-top" alt="...">
+  <div class="card-body">
+    <h5 class="card-title">Admin</h5>
+    <p class="card-text">Perform required operations on admin</p>
+  </div>
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item"><a style="text-decoration:none" href="{{route('admins.create')}}" class="card-link">Add a admin</a></li>
+    <li class="list-group-item"><a style="text-decoration:none" href="{{route('admins.index')}}" class="card-link">View all admins</a></li>
+    
+  </ul>
+
+
+
+        </div>
+
+  <!-- <div class="card" style="width: 10rem;">
   <img src= 'uploads/student.jpg' class="card-img-top" alt="...">
   <div class="card-body">
     <h5 class="card-title">view all Students</h5>
@@ -276,7 +333,7 @@ ul.ba {
     <p class="card-text">View deatils of all admins</p>
     <a href="{{route('admins.index')}}" class="btn btn-primary">Click here</a>
   </div>
-</div>
+</div> -->
 
         </div>
 

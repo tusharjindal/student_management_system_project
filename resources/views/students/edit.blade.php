@@ -9,7 +9,7 @@
     border: solid;
     padding: 15px;
     border-width: thin;
-    margin-top: 20px;
+    margin-top: 50px;
     box-shadow: 0 8px 16px rgba(0,0,0,.3);
       }
   </style>
@@ -32,6 +32,8 @@
         <li class="nav-item">
           <a class="nav-link active" style="color:white;" aria-current="page" href="{{ url('/newhome') }}">Home</a>
         </li>
+        </ul>
+        <ul class="navbar-nav ml-auto">
         <li class="nav-item">
           <a class="nav-link" style="color:white;" href="{{ route('logout') }}" onclick="event.preventDefault(); 
           document.getElementById('logout-form').submit();">Logout</a>
@@ -46,18 +48,18 @@
   </div>
 </nav>
   </head>
-  <body>
-      <div class="form_stud">
+  <body style=" background-color: aliceblue;">
+      <div class="form_stud" style="background-color: white;">
       <form method="Post" action="{{route('students.update',$student->Studentid)}}">  
-<h3>Edit details</h3>
+<h3 style="text-align:center">Edit details</h3>
 <input name="_method" type="hidden" value="PATCH">
           <div class="form-group">      
               <label for="first_name">Name:</label><br/>
-              <input type="text" class="form-control" name="name" value={{$student->name}}>
+              <input type="text" class="form-control" name="name" value={{$user->name}}>
           </div>  
           <div class="form-group">      
               <label for="first_name">Email</label><br/>
-              <input type="text" class="form-control" name="email" value={{$student->email}}>
+              <input type="text" class="form-control" name="email" value={{$user->email}}>
           </div>  
           <div class="form-group">      
               <label for="first_name">contact number</label><br/> 
@@ -71,10 +73,10 @@
               <label for="first_name">Address</label><br/> 
               <input type="text" class="form-control" name="Address" value={{$student->Address}}>
           </div>  
-          <div class="form-group">      
+          <!-- <div class="form-group">      
               <label for="first_name">Course</label><br/>
               <input type="text" class="form-control" name="Course" value={{$student->Course}}>
-          </div>  
+          </div>   -->
           <div class="form-group">      
               <label for="first_name">Grades</label><br/> 
               <input type="text" class="form-control" name="Grades" value={{$student->Grades}}> 
@@ -87,6 +89,13 @@
   
 <button type="submit" class="btn btn-info" >Update</button>  
 <input type="hidden" name="_token" value="{{ csrf_token() }}" />
+                           @if ($errors->any())
+                           <div class="alert alert-danger">
+                           <script>     
+                           alert("please fill the form properly"); 
+                           </script>;
+                           </div>
+                           @endif
 </form>  
 </div>
     <!-- Optional JavaScript; choose one of the two! -->

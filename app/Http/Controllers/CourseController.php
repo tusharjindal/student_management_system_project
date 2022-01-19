@@ -36,6 +36,14 @@ class CourseController extends Controller
      */
     public function store(Request $request)
     {
+        $this->validate($request, [
+          
+            'Cid' => 'required',
+            'CourseName' => 'required|min:4',
+
+            
+        ]);
+
         $course=new Courses();
         $course->Cid=$request->input('Cid');
         $course->CourseName=$request->input('CourseName');
@@ -79,6 +87,10 @@ class CourseController extends Controller
         //     'CourseName'=>'required'
         // ]);  
   
+        $this->validate($request, [
+            'CourseName' => 'required|min:4',
+        ]);
+        
         $course = Courses::find($Cid);  
         $course->CourseName =$request->get('CourseName');  
         $course->save();  

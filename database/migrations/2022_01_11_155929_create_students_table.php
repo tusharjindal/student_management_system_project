@@ -21,7 +21,7 @@ class CreateStudentsTable extends Migration
             $table->biginteger('number', 50)->nullable();
             $table->date('Birth');
             $table->string('Address', 100);
-           // $table->string('Course');
+            $table->string('courseid')->default(0);
             $table->string('Grades');
             $table->string('Mentor');
             $table->timestamps();

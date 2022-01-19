@@ -24,6 +24,8 @@
         <li class="nav-item">
           <a class="nav-link active" style="color:white;" aria-current="page" href="{{ url('/newhome') }}">Home</a>
         </li>
+</ul>
+        <ul class="navbar-nav ml-auto">
         <li class="nav-item">
           <a class="nav-link" style="color:white;" href="{{ route('logout') }}" onclick="event.preventDefault(); 
           document.getElementById('logout-form').submit();">Logout</a>

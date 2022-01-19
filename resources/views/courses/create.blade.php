@@ -32,6 +32,8 @@
         <li class="nav-item">
           <a class="nav-link active" style="color:white;" aria-current="page" href="{{ url('/newhome') }}">Home</a>
         </li>
+        </ul>
+        <ul class="navbar-nav ml-auto">
         <li class="nav-item">
           <a class="nav-link" style="color:white;" href="{{ route('logout') }}" onclick="event.preventDefault(); 
           document.getElementById('logout-form').submit();">Logout</a>
@@ -46,10 +48,10 @@
   </div>
 </nav>
   </head>
-  <body>
-      <div class="form_stud">
+  <body style=" background-color: aliceblue;">
+      <div class="form_stud" style=" background-color: white;">
       <form method="post" action="{{url('courses')}}">
-                        <h3>Add a course</h3>
+                        <h3 style="text-align:center">Add a course</h3>
                         <div class="form-group">
                         <div class="form-group">
                             <label>Course ID</label>
@@ -63,6 +65,16 @@
                         <input type="reset" class="btn btn-warning" value="Reset">
                         <input type="hidden" name="_token" value="{{ csrf_token() }}" />
 
+                        
+                        @if ($errors->any())
+                        <div class="alert alert-danger">
+                        <script>     
+                        alert("please fill the form properly"); 
+                        </script>;
+                        </div>
+                        @endif
+ 
+        <!--error ends-->
                     </form>
 </div>
     <!-- Optional JavaScript; choose one of the two! -->

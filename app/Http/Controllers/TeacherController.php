@@ -29,7 +29,8 @@ class TeacherController extends Controller
      */
     public function create()
     {
-        return view('teachers.create');
+        $courses = DB::table('courses')->pluck("CourseName","Cid");
+        return view('teachers.create',compact('courses'));
     }
 
     /**
@@ -40,12 +41,25 @@ class TeacherController extends Controller
      */
     public function store(Request $request)
     {
+        $this->validate($request, [
+          
+            'Tid' => 'required',
+            'email' => 'required|email',
+            'name' => 'required|min:4',
+            'number' => 'required',
+            'designation' => 'required',
+            'courseid' => 'required',
+            'speciality' => 'required',
+            
+        ]);
+
         $teacher=new Teachers();
         $teacher->Tid=$request->input('Tid');
        // $teacher->name=$request->input('name');
         //$teacher->email=$request->input('email');
         $teacher->number=$request->input('number');
         $teacher->designation=$request->input('designation');
+        $teacher->courseid=$request->input('courseid');
         $teacher->speciality=$request->input('speciality');
         $teacher->save();
 
@@ -78,8 +92,10 @@ class TeacherController extends Controller
      */
     public function edit($id)
     {
-        $teacher= Teachers::find($id);  
-        return view('teachers.edit', compact('teacher')); 
+        $teacher= Teachers::find($id); 
+        $user= User::find($id);   
+       // $courses = DB::table('courses')->pluck("CourseName","Cid");
+        return view('teachers.edit', compact('teacher'),compact('user')); 
     }
 
     /**
@@ -91,13 +107,26 @@ class TeacherController extends Controller
      */
     public function update(Request $request, $Tid)
     {
+        $this->validate($request, [
+          
+            'email' => 'required|email',
+            'name' => 'required|min:4',
+            'number' => 'required',
+            'designation' => 'required',
+            'speciality' => 'required',
+            
+        ]);
+
         $teacher = Teachers::find($Tid);  
-       // $teacher->name =$request->get('name');  
-      //  $teacher->email =$request->get('email');
         $teacher->number =$request->get('number');  
         $teacher->designation =$request->get('designation');  
         $teacher->speciality =$request->get('speciality');  
         $teacher->save();  
+
+        $user = User::find($Tid);  
+        $user->name=$request->input('name');
+        $user->email=$request->input('email');
+        $user->save();
         return redirect('/home');
     }
 
@@ -111,6 +140,8 @@ class TeacherController extends Controller
     {
         $teacher=Teachers::find($Tid);  
         $teacher->delete();  
+        $user = User::find($Tid); 
+        $user->delete();
         return redirect('/home');
     }
 }

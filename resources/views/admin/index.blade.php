@@ -7,6 +7,10 @@
           margin-top: 100px;
           /* width: 100px;
           margin-left: 20pc;} */}
+          .boxbox{
+            width: 850px;
+            margin-left: 340px;
+          }
     </style>
     <!-- Required meta tags -->
     <meta charset="utf-8">
@@ -15,7 +19,7 @@
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 
-    <title>Student List</title>
+    <title>Admin List</title>
 
     <nav class="navbar navbar-expand-lg navbar-light bg-dark ">
   <div class="container-fluid">
@@ -28,6 +32,8 @@
         <li class="nav-item">
           <a class="nav-link active" style="color:white;" aria-current="page" href="{{ url('/newhome') }}">Home</a>
         </li>
+        </ul>
+        <ul class="navbar-nav ml-auto">
         <li class="nav-item">
           <a class="nav-link" style="color:white;" href="{{ route('logout') }}" onclick="event.preventDefault(); 
           document.getElementById('logout-form').submit();">Logout</a>
@@ -45,8 +51,8 @@
   </div>
 </nav>
   </head>
-  <body>
-  
+  <body style=" background-color: aliceblue;">
+  <div class="boxbox" style="text-align:center">
   <table class="table table-success table-striped">
       <thead>  
       <tr>
@@ -98,6 +104,7 @@
 @endforeach    
 </tbody>  
 </table>
+        </div>
 {{$admins->links('pagination::bootstrap-4')}}
 
     <!-- Optional JavaScript; choose one of the two! -->
