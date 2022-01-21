@@ -93,7 +93,7 @@
                            <div class="alert alert-danger">
                            <script>     
                            alert("please fill the form properly"); 
-                           </script>;
+                           </script>
                            </div>
                            @endif
 </form>  

@@ -11,7 +11,7 @@ class course_student extends Model
  */
 public function students()
 {
-    return $this->belongsToMany(Students::class);
+    //
 }
 
 

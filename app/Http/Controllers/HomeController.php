@@ -124,6 +124,7 @@ class HomeController extends Controller
         //echo  Auth::user();
         $role = Auth::user()->role;
         $id= Auth::user()->id;
+        
        
             if ($role == User::ROLE_TYPE_ADMIN) 
             {

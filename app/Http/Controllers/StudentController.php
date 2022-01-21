@@ -16,11 +16,12 @@ class StudentController extends Controller
      */
     public function index()
     {
-      
+        $students=Students::leftJoin('users', 'users.id', '=', 'students.Studentid')
+       ->paginate(3);
         // $students = Students::paginate(2); 
-        $students = DB::table('students')
-        ->leftJoin('users', 'students.Studentid', '=', 'users.id')
-        ->paginate(3);
+        // $students = DB::table('students')
+        // ->leftJoin('users', 'students.Studentid', '=', 'users.id')
+        // ->paginate(3);
         return view('students.index', compact('students'));  
     }
 
@@ -118,12 +119,12 @@ class StudentController extends Controller
         $this->validate($request, [
           
             'email' => 'required|email',
-            'name' => 'required|min:4',
+             'name' => 'required|min:4',
             'number' => 'required',
             'Address' => 'required',
             'Birth' => 'required',
             'Grades' => 'required',
-            'Mentor' => 'required',
+           'Mentor' => 'required',
         ]);
 
         $student = Students::find($Studentid);  

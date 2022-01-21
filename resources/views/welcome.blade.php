@@ -26,12 +26,15 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+      @if (Auth::check())
         <li class="nav-item">
           <a class="nav-link active" style="color:white;" aria-current="page" href="{{ url('/newhome') }}">Home</a>
         </li>
+        @else
         <li class="nav-item">
           <a class="nav-link"  style="color:white;" href="{{ url('/login') }}">Login</a>
         </li>
+        @endif
         <!-- <li class="nav-item">
           <a class="nav-link"  style="color:white;" href="{{ url('/logout') }}">Logout</a>
         </li> -->
