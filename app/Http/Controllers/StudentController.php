@@ -19,7 +19,7 @@ class StudentController extends Controller
     public function index()
     {
         $student=new Students();
-        $students=$student->FetchAll();
+        $students=$student->fetch_all();
         return view('students.index', compact('students'));  
     }
 
@@ -30,7 +30,8 @@ class StudentController extends Controller
      */
     public function create()
     {
-        $courses = Courses::pluck("CourseName","Cid");
+        $course=new Courses();
+        $courses=$course->get_name_id();
         return view('students.create',compact('courses'));
         
     }
@@ -148,8 +149,10 @@ class StudentController extends Controller
      */
     public function edit($id)
     {
-        $student= Students::find($id);  
-        $user= User::find($id);  
+        $student_find= new Students();
+        $student=$student_find->find();
+        $user_find=new User();
+        $user=$user_find->find($id);
         return view('students.edit', compact('student'),compact('user'));  
     }
 

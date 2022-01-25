@@ -16,7 +16,7 @@ class AdminController extends Controller
     public function index()
     {
         $admin=new Admin();
-        $admins=$admin->FetchAll();
+        $admins=$admin->fetch_all();
        
         // $admins = Admin::all();  
         // $admins = DB::table('admins')

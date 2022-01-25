@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Teachers;
+use App\Courses;
 use App\User;
 use DB;
 class TeacherController extends Controller
@@ -16,12 +17,7 @@ class TeacherController extends Controller
     public function index()
     {
         $teacher=new Teachers();
-        $teachers=$teacher->FetchAll();
-        
-        //$teachers = Teachers::all();  
-        // $teachers = DB::table('teachers')
-        // ->leftJoin('users', 'teachers.Tid', '=', 'users.id')
-        // ->paginate(1);  
+        $teachers=$teacher->fetch_all();
         return view('teachers.index', compact('teachers'));  
     }
 
@@ -32,7 +28,8 @@ class TeacherController extends Controller
      */
     public function create()
     {
-        $courses = DB::table('courses')->pluck("CourseName","Cid");
+        $course=new Courses();
+        $courses=$course->get_name_id();
         return view('teachers.create',compact('courses'));
     }
 
@@ -119,9 +116,10 @@ class TeacherController extends Controller
      */
     public function edit($id)
     {
-        $teacher= Teachers::find($id); 
-        $user= User::find($id);   
-       // $courses = DB::table('courses')->pluck("CourseName","Cid");
+        $teacher_find=new Teachers();
+        $teacher= $teacher_find->find($id); 
+        $user_find=new User();
+        $user=$user_find->find($id);
         return view('teachers.edit', compact('teacher'),compact('user')); 
     }
 

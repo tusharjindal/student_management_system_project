@@ -16,10 +16,15 @@ class Students extends Model
         $this->attributes['password'] = bcrypt($password);
     }
 
-    public function FetchAll(){
+    public function fetch_all(){
         $students=Students::leftJoin('users', 'users.id', '=', 'students.Studentid')
         ->paginate(3);
         return $students;
+    }
+
+    public function find($id){
+        $student= Students::find($id);  
+        return $student;
     }
     public function search($search){
 

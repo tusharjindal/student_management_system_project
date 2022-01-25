@@ -10,7 +10,7 @@ class Admin extends Model
     protected $primaryKey = 'adminid';
     public $incrementing = false;
 
-    public function FetchAll(){
+    public function fetch_all(){
         $admins=Admin::leftJoin('users', 'users.id', '=', 'admins.adminid')
         ->paginate(3);
         return $admins;

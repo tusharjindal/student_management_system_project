@@ -14,7 +14,7 @@ class CourseController extends Controller
     public function index()
     {
         $course=new Courses();
-        $courses = $course->FetchAll();  
+        $courses = $course->fetch_all();  
         return view('courses.index', compact('courses'));  
     }
 
@@ -36,19 +36,14 @@ class CourseController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request, [
-          
+        $this->validate($request, [    
             'Cid' => 'required',
             'CourseName' => 'required|min:4',
-
-            
         ]);
 
         $course=new Courses();
-        $course->Cid=$request->input('Cid');
-        $course->CourseName=$request->input('CourseName');
-        $course->save();
-        return redirect('/home');
+        $course_added=$course->store($request);
+        
     }
 
     /**

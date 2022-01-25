@@ -31,6 +31,10 @@ class User extends Authenticatable
     ];
 
 
+    public function find($id){
+        $user= User::find($id);  
+        return $user;
+    }
     public function setPasswordAttribute($password)
     {
         $this->attributes['password'] = bcrypt($password);
