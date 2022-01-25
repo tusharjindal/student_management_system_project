@@ -152,9 +152,8 @@ class StudentController extends Controller
     public function edit($id)
     {
         $student= Students::find($id);  
-        print_r($student);
-        // $user= User::find($id);  
-        // return view('students.edit', compact('student'),compact('user'));  
+        $user= User::find($id);  
+        return view('students.edit', compact('student'),compact('user'));  
     }
 
     /**

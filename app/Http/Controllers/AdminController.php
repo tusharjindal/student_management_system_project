@@ -52,24 +52,44 @@ class AdminController extends Controller
             
         ]);
 
-        $validator =Validator::make($request->all(), [
+   
 
-            'Name'=>'required',
-            'Email' => 'required|email|unique',]);
+        // $admin=new Admin();
+        // $admin->adminid=$request->input('adminid');
+        // $admin->number=$request->input('number');
+        // $admin->Address=$request->input('Address');
+        // $admin->save();
 
-        $admin=new Admin();
-        $admin->adminid=$request->input('adminid');
-        $admin->number=$request->input('number');
-        $admin->Address=$request->input('Address');
-        $admin->save();
+        // $user=new User();
+        // $user->id=$request->input('adminid');
+        // $user->name=$request->input('Name');
+        // $user->email=$request->input('Email');
+        // $user->password = bcrypt('secret');
+        // $user->role=0;
+        // $user->save();
 
-        $user=new User();
-        $user->id=$request->input('adminid');
-        $user->name=$request->input('Name');
-        $user->email=$request->input('Email');
-        $user->password = bcrypt('secret');
-        $user->role=0;
-        $user->save();
+        DB::beginTransaction();
+        try{
+            $newAdmin= Admin::create([
+                
+                'adminid'=>Input::get('adminid'),
+                'number'=>Input::get('number'),
+                'Address'=>Input::get('Address')
+                ]);
+
+            $newUser = User::create([
+                    'name' =>  Input::get('Name'),
+                    'id' =>   Input::get('adminid'),
+                    'email'=> Input::get('Email'),
+                    'role'=>0,
+                    'password' =>'secret'
+                ]);
+                
+        }catch(ValidationException $e){
+            DB::rollback();
+            throw $e;
+        }
+            DB::commit();
         return redirect('/home');
     }
 
