@@ -15,10 +15,12 @@ class TeacherController extends Controller
      */
     public function index()
     {
+        $teachers=Teachers::leftJoin('users', 'users.id', '=', 'teachers.Tid')
+        ->paginate(3);
         //$teachers = Teachers::all();  
-        $teachers = DB::table('teachers')
-        ->leftJoin('users', 'teachers.Tid', '=', 'users.id')
-        ->paginate(1);  
+        // $teachers = DB::table('teachers')
+        // ->leftJoin('users', 'teachers.Tid', '=', 'users.id')
+        // ->paginate(1);  
         return view('teachers.index', compact('teachers'));  
     }
 

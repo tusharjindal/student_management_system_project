@@ -15,10 +15,12 @@ class AdminController extends Controller
      */
     public function index()
     {
-        $admins = Admin::all();  
-        $admins = DB::table('admins')
-        ->leftJoin('users', 'admins.adminid', '=', 'users.id')
-        ->paginate(1);
+        $admins=Admin::leftJoin('users', 'users.id', '=', 'admins.adminid')
+        ->paginate(3);
+        // $admins = Admin::all();  
+        // $admins = DB::table('admins')
+        // ->leftJoin('users', 'admins.adminid', '=', 'users.id')
+        // ->paginate(1);
         return view('admin.index', compact('admins'));  
     }
 

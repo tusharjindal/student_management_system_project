@@ -8,7 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 class User extends Authenticatable
 {
     use Notifiable;
-
+    protected $guarded = [];
     const ROLE_TYPE_ADMIN=0;
     const ROLE_TYPE_TEACHER=1;
     const ROLE_TYPE_STUDENT=2;
@@ -18,7 +18,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name','role', 'email', 'password',
+        'id','name','role', 'email', 'password',
     ];
 
     /**
@@ -31,5 +31,9 @@ class User extends Authenticatable
     ];
 
 
+    public function setPasswordAttribute($password)
+    {
+        $this->attributes['password'] = bcrypt($password);
+    }
 
 }
