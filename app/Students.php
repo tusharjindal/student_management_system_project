@@ -26,6 +26,37 @@ class Students extends Model
         $student= Students::find($id);  
         return $student;
     }
+
+    public function store($request){
+        $student=new Students();
+        $student->Studentid=$request->input('Studentid');
+        $student->number=$request->input('number');
+        $student->Birth=$request->input('Birth');
+        $student->Address=$request->input('Address');
+        $student->courseid=$request->input('courseid');
+        $student->Grades=$request->input('Grades');
+        $student->Mentor=$request->input('Mentor');
+        $student->save();
+        return $student;
+    }
+
+    public function update($request,$Studentid){
+
+        $student = Students::find($Studentid);  
+        $student->number =$request->get('number');  
+        $student->Birth =$request->get('Birth');  
+        $student->Address =$request->get('Address');  
+        $student->Grades =$request->get('Grades'); 
+        $student->Mentor =$request->get('Mentor');   
+        $student->save();  
+        return $student;
+
+    }
+
+    public function delete($Studentid){
+        $student=Students::find($Studentid);  
+        $student->delete();  
+    }
     public function search($search){
 
         $student = Students::leftJoin('users','users.id', '=' , 'students.Studentid')

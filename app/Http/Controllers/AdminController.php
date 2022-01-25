@@ -17,11 +17,6 @@ class AdminController extends Controller
     {
         $admin=new Admin();
         $admins=$admin->fetch_all();
-       
-        // $admins = Admin::all();  
-        // $admins = DB::table('admins')
-        // ->leftJoin('users', 'admins.adminid', '=', 'users.id')
-        // ->paginate(1);
         return view('admin.index', compact('admins'));  
     }
 
@@ -53,38 +48,29 @@ class AdminController extends Controller
             
         ]);
 
-   
-
-        // $admin=new Admin();
-        // $admin->adminid=$request->input('adminid');
-        // $admin->number=$request->input('number');
-        // $admin->Address=$request->input('Address');
-        // $admin->save();
-
-        // $user=new User();
-        // $user->id=$request->input('adminid');
-        // $user->name=$request->input('Name');
-        // $user->email=$request->input('Email');
-        // $user->password = bcrypt('secret');
-        // $user->role=0;
-        // $user->save();
 
         DB::beginTransaction();
         try{
-            $newAdmin= Admin::create([
-                
-                'adminid'=>Input::get('adminid'),
-                'number'=>Input::get('number'),
-                'Address'=>Input::get('Address')
-                ]);
 
-            $newUser = User::create([
-                    'name' =>  Input::get('Name'),
-                    'id' =>   Input::get('adminid'),
-                    'email'=> Input::get('Email'),
-                    'role'=>0,
-                    'password' =>'secret'
-                ]);
+            $admin = new Admin();
+            $new_admin = $admin->store($request);
+
+            $user=new User();
+            $new_user = $user->store_admin($request);
+            // $newAdmin= Admin::create([
+                
+            //     'adminid'=>Input::get('adminid'),
+            //     'number'=>Input::get('number'),
+            //     'Address'=>Input::get('Address')
+            //     ]);
+
+            // $newUser = User::create([
+            //         'name' =>  Input::get('Name'),
+            //         'id' =>   Input::get('adminid'),
+            //         'email'=> Input::get('Email'),
+            //         'role'=>0,
+            //         'password' =>'secret'
+            //     ]);
                 
         }catch(ValidationException $e){
             DB::rollback();
@@ -113,8 +99,10 @@ class AdminController extends Controller
      */
     public function edit($id)
     {
-        $admin= Admin::find($id);  
-        $user= User::find($id);  
+        $admin_find= new Admin();
+        $admin=$admin_find->find($id);
+        $user_find=new User();
+        $user=$user_find->find($id);
         return view('admin.edit', compact('admin'),compact('user')); 
     }
 
@@ -137,15 +125,20 @@ class AdminController extends Controller
             
         ]);
 
-        $admin=Admin::find($id);  
-        $admin->Address=$request->input('address');
-        $admin->number=$request->input('number');
-        $admin->save();
-        $user=User::find($id);
-        $user->name=$request->input('Name');
-        $user->email=$request->input('Email');
-        $user->save();
-        $admin->save();
+        DB::beginTransaction();
+        try{
+
+            $admin = new Admin();
+            $new_admin = $admin->update($request,$id);
+
+            $user=new User();
+            $new_user = $user->update_admin($request,$id);
+      
+        }catch(ValidationException $e){
+            DB::rollback();
+            throw $e;
+        }
+        DB::commit();
         return redirect('/home');
     }
 
@@ -157,10 +150,20 @@ class AdminController extends Controller
      */
     public function destroy($adminid)
     {
-        $admin=Admin::find($adminid);  
-        $admin->delete();  
-        $user=User::find($adminid);
-        $user->delete();
+        DB::beginTransaction();
+        try{
+
+            $admin = new Admin();
+            $new_admin = $admin->delete($adminid);
+
+            $user=new User();
+            $new_user = $user->delete_admin($adminid);
+      
+        }catch(ValidationException $e){
+            DB::rollback();
+            throw $e;
+        }
+        DB::commit();
         return redirect('/home');
     }
 

@@ -53,41 +53,32 @@ class TeacherController extends Controller
             
         ]);
 
-        // $teacher=new Teachers();
-        // $teacher->Tid=$request->input('Tid');
-       // $teacher->name=$request->input('name');
-        //$teacher->email=$request->input('email');
-        // $teacher->number=$request->input('number');
-        // $teacher->designation=$request->input('designation');
-        // $teacher->courseid=$request->input('courseid');
-        // $teacher->speciality=$request->input('speciality');
-        // $teacher->save();
-
-        // $user=new User();
-        // $user->id=$request->input('Tid');
-        // $user->name=$request->input('name');
-        // $user->email=$request->input('email');
-        // $user->password = bcrypt('secret');
-        // $user->role=1;
-        // $user->save();
+     
         DB::beginTransaction();
         try{
-            $newTeacher= Teachers::create([
-                
-                'Tid'=>Input::get('Tid'),
-                'number'=>Input::get('number'),
-                'designation'=>Input::get('designation'),
-                'courseid'=>Input::get('courseid'),
-                'speciality'=>Input::get('speciality')
-                ]);
 
-            $newUser = User::create([
-                    'name' =>  Input::get('name'),
-                    'id' =>   Input::get('Tid'),
-                    'email'=> Input::get('email'),
-                    'role'=>1,
-                    'password' =>'secret'
-                ]);
+            $teacher = new Teachers();
+            $new_teacher = $teacher->store($request);
+
+            $user=new User();
+            $new_user = $user->store_teacher($request);
+
+            // $newTeacher= Teachers::create([
+                
+            //     'Tid'=>Input::get('Tid'),
+            //     'number'=>Input::get('number'),
+            //     'designation'=>Input::get('designation'),
+            //     'courseid'=>Input::get('courseid'),
+            //     'speciality'=>Input::get('speciality')
+            //     ]);
+
+            // $newUser = User::create([
+            //         'name' =>  Input::get('name'),
+            //         'id' =>   Input::get('Tid'),
+            //         'email'=> Input::get('email'),
+            //         'role'=>1,
+            //         'password' =>'secret'
+            //     ]);
                 
         }catch(ValidationException $e){
             DB::rollback();
@@ -142,16 +133,20 @@ class TeacherController extends Controller
             
         ]);
 
-        $teacher = Teachers::find($Tid);  
-        $teacher->number =$request->get('number');  
-        $teacher->designation =$request->get('designation');  
-        $teacher->speciality =$request->get('speciality');  
-        $teacher->save();  
+        DB::beginTransaction();
+        try{
 
-        $user = User::find($Tid);  
-        $user->name=$request->input('name');
-        $user->email=$request->input('email');
-        $user->save();
+            $teacher = new Teachers();
+            $new_teacher = $teacher->update($request,$Tid);
+
+            $user=new User();
+            $new_user = $user->update_teacher($request,$Tid);
+      
+        }catch(ValidationException $e){
+            DB::rollback();
+            throw $e;
+        }
+        DB::commit();
         return redirect('/home');
     }
 
@@ -163,10 +158,20 @@ class TeacherController extends Controller
      */
     public function destroy($Tid)
     {
-        $teacher=Teachers::find($Tid);  
-        $teacher->delete();  
-        $user = User::find($Tid); 
-        $user->delete();
+        DB::beginTransaction();
+        try{
+
+            $teacher = new Teachers();
+            $new_teacher = $teacher->delete($Tid);
+
+            $user=new User();
+            $new_user = $user->delete_teacher($Tid);
+      
+        }catch(ValidationException $e){
+            DB::rollback();
+            throw $e;
+        }
+        DB::commit();
         return redirect('/home');
     }
 
