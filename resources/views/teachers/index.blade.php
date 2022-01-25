@@ -52,7 +52,7 @@
         </li>
         
       </ul>
-      <form action="/teachersearch" method="POST" role="search">
+      <form action="/teachersearch" method="GET" role="search">
       {{ csrf_field() }}
       <div class="input-group">
           <input type="text" class="form-control" name="q"

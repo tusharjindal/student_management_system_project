@@ -15,8 +15,9 @@ class AdminController extends Controller
      */
     public function index()
     {
-        $admins=Admin::leftJoin('users', 'users.id', '=', 'admins.adminid')
-        ->paginate(3);
+        $admin=new Admin();
+        $admins=$admin->FetchAll();
+       
         // $admins = Admin::all();  
         // $admins = DB::table('admins')
         // ->leftJoin('users', 'admins.adminid', '=', 'users.id')
@@ -161,5 +162,18 @@ class AdminController extends Controller
         $user=User::find($adminid);
         $user->delete();
         return redirect('/home');
+    }
+
+    public function search_admin(Request $request){
+
+        $q=$request->input('q');
+        $admin=new Admin();
+        $admin1=$admin->search($q);
+        if($admin1->count()>0){
+            return view('admin.search_result')->withDetails($admin1)->withQuery ($q);
+        }
+        else{
+            return \redirect::back();
+        }
     }
 }

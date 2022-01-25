@@ -15,8 +15,9 @@ class TeacherController extends Controller
      */
     public function index()
     {
-        $teachers=Teachers::leftJoin('users', 'users.id', '=', 'teachers.Tid')
-        ->paginate(3);
+        $teacher=new Teachers();
+        $teachers=$teacher->FetchAll();
+        
         //$teachers = Teachers::all();  
         // $teachers = DB::table('teachers')
         // ->leftJoin('users', 'teachers.Tid', '=', 'users.id')
@@ -169,5 +170,18 @@ class TeacherController extends Controller
         $user = User::find($Tid); 
         $user->delete();
         return redirect('/home');
+    }
+
+    public function search_teacher(Request $request){
+
+        $q=$request->input('q');
+        $teacher=new Teachers();
+        $teacher1=$teacher->search($q);
+        if($teacher1->count()>0){
+            return view('teachers.search_result')->withDetails($teacher1)->withQuery ($q);
+        }
+        else{
+            return \redirect::back();
+        }
     }
 }

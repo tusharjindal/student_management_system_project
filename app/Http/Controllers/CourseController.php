@@ -13,8 +13,8 @@ class CourseController extends Controller
      */
     public function index()
     {
-        $courses = Courses::paginate(2);  
-  
+        $course=new Courses();
+        $courses = $course->FetchAll();  
         return view('courses.index', compact('courses'));  
     }
 
@@ -108,5 +108,18 @@ class CourseController extends Controller
         $course=Courses::find($Cid);  
         $course->delete();  
         return redirect('/home');
+    }
+
+    public function search_course(Request $request){
+
+        $q=$request->input('q');
+        $course=new Courses();
+        $course1=$course->search($q);
+        if($course1->count()>0){
+            return view('courses.search_result')->withDetails($course1)->withQuery ($q);
+        }
+        else{
+            return \redirect::back()->withMessage('No Details found. Try to search again !');
+        }
     }
 }

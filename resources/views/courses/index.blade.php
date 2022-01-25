@@ -49,7 +49,7 @@
         </li>
         
       </ul>
-      <form action="/coursesearch" method="POST" role="search">
+      <form action="/coursesearch" method="GET" role="search">
       {{ csrf_field() }}
       <div class="input-group">
           <input type="text" class="form-control" name="q"

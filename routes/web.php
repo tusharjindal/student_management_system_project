@@ -31,60 +31,11 @@ Route::get('/newhome','HomeController@role');
 Route::get('/changePassword','HomeController@showChangePasswordForm');
 Route::post('/changePassword','HomeController@changePassword')->name('changePassword');
 Route::get('/showprofile','HomeController@ShowProfile');
-
-Route::any('/studentsearch',function(){
-$q = Input::get ( 'q' );
-$student= DB::table('users')
-            ->join('students', function ($join) {
-                $join->on('users.id', '=', 'students.Studentid')
-                    ->where('users.name','LIKE','%'.Input::get ( 'q' ).'%');
-            })
-            ->get();
-        if(count($student) > 0)
-        return view('students.search_result')->withDetails($student)->withQuery ( $q );
-        else return view ('students.search_result')->withMessage('No Details found. Try to search again !');
-});
+Route::get('/studentsearch','StudentController@search_student');
+Route::get('/teachersearch','TeacherController@search_teacher');
+Route::get('/adminsearch','AdminController@search_admin');
+Route::get('/courseearch','CourseController@search_course');
 
 
-Route::any('/teachersearch',function(){
-$q = Input::get ( 'q' );
-$teacher= DB::table('users')
-            ->join('teachers', function ($join) {
-                $join->on('users.id', '=', 'teachers.Tid')
-                    ->where('users.name','LIKE','%'.Input::get ( 'q' ).'%');
-            })
-            ->get();
-        if(count($teacher) > 0)
-        return view('teachers.search_result')->withDetails($teacher)->withQuery ( $q );
-        else return view ('teachers.search_result')->withMessage('No Details found. Try to search again !');
-});
 
-Route::any('/adminsearch',function(){
-$q = Input::get ( 'q' );
-$admin= DB::table('users')
-            ->join('admins', function ($join) {
-                $join->on('users.id', '=', 'admins.adminid')
-                    ->where('users.name','LIKE','%'.Input::get ( 'q' ).'%');
-            })
-            ->get();
-        if(count($admin) > 0)
-        return view('admin.search_result')->withDetails($admin)->withQuery ( $q );
-        else return view ('admin.search_result')->withMessage('No Details found. Try to search again !');
-});    
-
-// Route::any('/studentsearch',function(){
-//     $q = Input::get ( 'q' );
-//     $student = User::where('name','LIKE','%'.$q.'%')->orWhere('email','LIKE','%'.$q.'%')->get();
-//     if(count($student) > 0)
-//         return view('students.search_result')->withDetails($student)->withQuery ( $q );
-//     else return view ('students.search_result')->withMessage('No Details found. Try to search again !');
-// });
-
-Route::any('/coursesearch',function(){
-    $q = Input::get ( 'q' );
-    $course = Courses::where('CourseName','LIKE','%'.$q.'%')->get();
-    if(count($course) > 0)
-        return view('courses.search_result')->withDetails($course)->withQuery ( $q );
-    else return view ('courses.search_result')->withMessage('No Details found. Try to search again !');
-});
 

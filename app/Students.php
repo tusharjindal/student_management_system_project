@@ -1,7 +1,7 @@
 <?php
 
 namespace App;
-
+use App\User;
 use Illuminate\Database\Eloquent\Model;
 
 class Students extends Model
@@ -15,4 +15,18 @@ class Students extends Model
     {
         $this->attributes['password'] = bcrypt($password);
     }
+
+    public function FetchAll(){
+        $students=Students::leftJoin('users', 'users.id', '=', 'students.Studentid')
+        ->paginate(3);
+        return $students;
+    }
+    public function search($search){
+
+        $student = Students::leftJoin('users','users.id', '=' , 'students.Studentid')
+        ->where('users.name', 'LIKE', '%' . $search . '%')
+        ->paginate(2);
+        return $student;
+    }
 }
+

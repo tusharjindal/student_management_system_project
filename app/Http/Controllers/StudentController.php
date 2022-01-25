@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use DB;
 use Illuminate\Http\Request;
 use App\Students;
+use App\Courses;
 use App\User;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Database\Eloquent\Model;
@@ -17,12 +18,8 @@ class StudentController extends Controller
      */
     public function index()
     {
-        $students=Students::leftJoin('users', 'users.id', '=', 'students.Studentid')
-       ->paginate(3);
-        // $students = Students::paginate(2); 
-        // $students = DB::table('students')
-        // ->leftJoin('users', 'students.Studentid', '=', 'users.id')
-        // ->paginate(3);
+        $student=new Students();
+        $students=$student->FetchAll();
         return view('students.index', compact('students'));  
     }
 
@@ -33,7 +30,7 @@ class StudentController extends Controller
      */
     public function create()
     {
-        $courses = DB::table('courses')->pluck("CourseName","Cid");
+        $courses = Courses::pluck("CourseName","Cid");
         return view('students.create',compact('courses'));
         
     }
@@ -206,5 +203,17 @@ class StudentController extends Controller
         return redirect('/home');
     }
 
+    public function search_student(Request $request){
+
+        $q=$request->input('q');
+        $student=new Students();
+        $student1=$student->search($q);
+        if($student1->count()>0){
+            return view('students.search_result')->withDetails($student1)->withQuery ($q);
+        }
+        else{
+            return \redirect::back();
+        }
+    }
    
 }
