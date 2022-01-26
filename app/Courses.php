@@ -14,10 +14,10 @@ class Courses extends Model
         return $courses;
     }
 
-    public function store($request){
+    public function store($input){
         $course=new self();
-        $course->Cid=$request->input('Cid');
-        $course->CourseName=$request->input('CourseName');
+        $course->Cid=$input['Cid'];
+        $course->CourseName=$input['CourseName'];
         $course->save();
         return $course;
         
@@ -28,15 +28,15 @@ class Courses extends Model
         return $courses;
     }
 
-    public function update($request, $Cid){
+    public function update_course( $input,$Cid){
 
-        $course = self::find($Cid);  
-        $course->CourseName =$request->get('CourseName');  
+        $course = Courses::find($Cid);  
+        $course->CourseName =$input['CourseName'];  
         $course->save();  
 
     }
 
-    Public function delete($Cid){
+    Public function delete_course($Cid){
 
         $course=self::find($Cid);  
         $course->delete();  

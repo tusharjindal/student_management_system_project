@@ -41,8 +41,13 @@ class CourseController extends Controller
             'CourseName' => 'required|min:4',
         ]);
 
+        $input = [
+            'Cid' =>Input::get('Studentid'),
+            'CourseName'=>Input::get('CourseName') ,
+         ];
+
         $course=new Courses();
-        $course_added=$course->store($request);
+        $course_added=$course->store($input);
         
     }
 
@@ -84,8 +89,12 @@ class CourseController extends Controller
             'CourseName' => 'required|min:4',
         ]);
 
+        $input = [
+            'CourseName'=>Input::get('CourseName') ,
+         ];
+
         $course=new Courses();
-        $course->update($request, $Cid);
+        $course->update($input, $Cid);
         return redirect('/home');
     }
 

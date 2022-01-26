@@ -21,24 +21,24 @@ class Admin extends Model
         return $admin;
     }
 
-    public function store($request){
+    public function store($input){
         $admin=new self();
-        $admin->adminid=$request->input('adminid');
-        $admin->number=$request->input('number');
-        $admin->Address=$request->input('Address');
+        $admin->adminid=$input('adminid');
+        $admin->number=$input('number');
+        $admin->Address=$input('Address');
         $admin->save();
         return $admin;
     }
 
-    public function update($request,$id){
+    public function update_admin($input,$id){
         $admin=self::find($id);  
-        $admin->Address=$request->input('address');
-        $admin->number=$request->input('number');
+        $admin->Address=$input['address'];
+        $admin->number=$input['number'];
         $admin->save();
         return $admin;
     }
 
-    public function delete($adminid){
+    public function delete_admin($adminid){
         $admin=self::find($adminid);  
         $admin->delete();  
     }

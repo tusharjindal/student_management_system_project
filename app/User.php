@@ -36,81 +36,75 @@ class User extends Authenticatable
         return $user;
     }
 
-    public function store_student($request){
+    public function store_student($input){
        
         $user=new self();
-        $user->id=$request->input('Studentid');
-        $user->name=$request->input('name');
-        $user->email=$request->input('email');
+        $user->id=$input['Studentid'];
+        $user->name=$input['name'];
+        $user->email=$input['email'];
         $user->password = 'secret';
         $user->role=self::ROLE_TYPE_STUDENT;
         $user->save();
         return $user;
     }
 
-    public function update_user($request,$Studentid){
+    public function update_student($input,$Studentid){
 
         $user = self::find($Studentid);  
-        $user->name=$request->input('name');
-        $user->email=$request->input('email');
+        $user->name=$input['name'];
+        $user->email=$input['email'];
         $user->save();
         return $user;
 
     }
 
-    public function store_teacher($request){
+    public function store_teacher($input){
  
         $user=new self();
-        $user->id=$request->input('Tid');
-        $user->name=$request->input('name');
-        $user->email=$request->input('email');
+        $user->id=$input['Tid'];
+        $user->name=$input['name'];
+        $user->email=$input['email'];
         $user->password = 'secret';
         $user->role=self::ROLE_TYPE_TEACHER;
         $user->save();
         return $user;
     }
 
-    public function update_teacher($request,$Tid){
+    public function update_teacher($input,$Tid){
 
         $user = self::find($Tid);  
-        $user->name=$request->input('name');
-        $user->email=$request->input('email');
+        $user->name=$input('name');
+        $user->email=$input('email');
         $user->save();
         return $user;
     }
 
-    public function delete_student($Studentid){
-        $user=self::find($Studentid); 
+    public function delete_user($id){
+        $user=self::find($id); 
         $user->delete();
     }
 
-    public function delete_teacher($Tid){
-        $user = self::find($Tid); 
-        $user->delete();
-    }
+ 
 
-    public function store_admin($request){
+    public function store_admin($input){
         $user=new self();
-        $user->id=$request->input('adminid');
-        $user->name=$request->input('Name');
-        $user->email=$request->input('Email');
+        $user->id=$input('adminid');
+        $user->name=$input('Name');
+        $user->email=$input('Email');
         $user->password = 'secret';
         $user->role=self::ROLE_TYPE_ADMIN;
         $user->save();
     }
 
-    public function update_admin($request,$id){
+    public function update_admin($input,$id){
         $user=self::find($id);
-        $user->name=$request->input('Name');
-        $user->email=$request->input('Email');
+        $user->name=$input['Name'];
+        $user->email=$input['Email'];
         $user->save();
         return $user;
     }
 
-    public function delete_admin($adminid){
-        $user=self::find($adminid);
-        $user->delete();
-    }
+    
     public function setPasswordAttribute($password)
     {
         $this->attributes['password'] = bcrypt($password);

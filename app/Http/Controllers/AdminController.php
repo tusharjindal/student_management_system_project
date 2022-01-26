@@ -52,11 +52,19 @@ class AdminController extends Controller
         DB::beginTransaction();
         try{
 
+            $input = [
+                'adminid'=>Input::get('adminid'),
+                'number'=>Input::get('number'),
+                'Address'=>Input::get('Address'),
+                'Name'=>Input::get('Name') ,
+                'Email'=>Input::get('Email'),
+             ];
+
             $admin = new Admin();
-            $new_admin = $admin->store($request);
+            $new_admin = $admin->store($input);
 
             $user=new User();
-            $new_user = $user->store_admin($request);
+            $new_user = $user->store_admin($input);
             // $newAdmin= Admin::create([
                 
             //     'adminid'=>Input::get('adminid'),
@@ -115,6 +123,7 @@ class AdminController extends Controller
      */
     public function update(Request $request, $id)
     {
+        
 
         $this->validate($request, [
           
@@ -128,11 +137,18 @@ class AdminController extends Controller
         DB::beginTransaction();
         try{
 
+            $input = [
+                'number'=>Input::get('number'),
+                'Address'=>Input::get('Address'),
+                'Name'=>Input::get('Name') ,
+                'Email'=>Input::get('Email'),
+             ];
+
             $admin = new Admin();
-            $new_admin = $admin->update($request,$id);
+            $new_admin = $admin->update_admin($input,$id);
 
             $user=new User();
-            $new_user = $user->update_admin($request,$id);
+            $new_user = $user->update_admin($input,$id);
       
         }catch(ValidationException $e){
             DB::rollback();
@@ -152,12 +168,11 @@ class AdminController extends Controller
     {
         DB::beginTransaction();
         try{
-
             $admin = new Admin();
-            $admin->delete($adminid);
+            $admin->delete_admin($adminid);
 
             $user=new User();
-            $user->delete_admin($adminid);
+            $user->delete_user($adminid);
       
         }catch(ValidationException $e){
             DB::rollback();

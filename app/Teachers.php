@@ -21,30 +21,30 @@ class Teachers extends Model
         return $teacher;
     }
 
-    public function store($request){
+    public function store($input){
 
         $teacher=new self();
-        $teacher->Tid=$request->input('Tid');
-        $teacher->number=$request->input('number');
-        $teacher->designation=$request->input('designation');
-        $teacher->courseid=$request->input('courseid');
-        $teacher->speciality=$request->input('speciality');
+        $teacher->Tid=$input['Tid'];
+        $teacher->number=$input['number'];
+        $teacher->designation=$input['designation'];
+        $teacher->courseid=$input['courseid'];
+        $teacher->speciality=$input['speciality'];
         $teacher->save();
         return $teacher;
     }
 
-    public function update($request,$Tid){
+    public function update_teacher($input,$Tid){
 
         $teacher = self::find($Tid);  
-        $teacher->number =$request->get('number');  
-        $teacher->designation =$request->get('designation');  
-        $teacher->speciality =$request->get('speciality');  
+        $teacher->number=$input['number'];
+        $teacher->designation=$input['designation'];
+        $teacher->speciality=$input['speciality'];
         $teacher->save();  
         return $teacher;
 
     }
 
-    public function delete($Tid){
+    public function delete_teacher($Tid){
         $teacher=self::find($Tid);  
         $teacher->delete();  
     }

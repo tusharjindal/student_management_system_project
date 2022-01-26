@@ -27,33 +27,33 @@ class Students extends Model
         return $student;
     }
 
-    public function store($request){
+    public function store($input){
         $student=new self();
-        $student->Studentid=$request->input('Studentid');
-        $student->number=$request->input('number');
-        $student->Birth=$request->input('Birth');
-        $student->Address=$request->input('Address');
-        $student->courseid=$request->input('courseid');
-        $student->Grades=$request->input('Grades');
-        $student->Mentor=$request->input('Mentor');
+        $student->Studentid=$input['Studentid'];
+        $student->number=$input['number'];
+        $student->Birth=$input['Birth'];
+        $student->Address=$input['Address'];
+        $student->courseid=$input['courseid'];
+        $student->Grades=$input['Grades'];
+        $student->Mentor=$input['Mentor'];
         $student->save();
         return $student;
     }
 
-    public function update($request,$Studentid){
+    public function update_student($input,$Studentid){
 
         $student = self::find($Studentid);  
-        $student->number =$request->get('number');  
-        $student->Birth =$request->get('Birth');  
-        $student->Address =$request->get('Address');  
-        $student->Grades =$request->get('Grades'); 
-        $student->Mentor =$request->get('Mentor');   
+        $student->number =$input['number'];  
+        $student->Birth =$input['Birth'];  
+        $student->Address =$input['Address'];  
+        $student->Grades =$input['Grades']; 
+        $student->Mentor =$input['Mentor'];   
         $student->save();  
         return $student;
 
     }
 
-    public function delete($Studentid){
+    public function delete_student($Studentid){
         $student=self::find($Studentid);  
         $student->delete();  
     }

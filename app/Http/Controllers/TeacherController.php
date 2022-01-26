@@ -57,11 +57,22 @@ class TeacherController extends Controller
         DB::beginTransaction();
         try{
 
+            $input = [
+
+                'Tid'=>Input::get('Tid'),
+                'number'=>Input::get('number'),
+                'designation'=>Input::get('designation'),
+                'courseid'=>Input::get('courseid'),
+                'speciality'=>Input::get('speciality'),
+                'name'=>Input::get('name') ,
+                'email'=>Input::get('email'),
+             ];
+
             $teacher = new Teachers();
-            $new_teacher = $teacher->store($request);
+            $new_teacher = $teacher->store($input);
 
             $user=new User();
-            $new_user = $user->store_teacher($request);
+            $new_user = $user->store_teacher($input);
 
             // $newTeacher= Teachers::create([
                 
@@ -136,11 +147,21 @@ class TeacherController extends Controller
         DB::beginTransaction();
         try{
 
+            $input = [
+
+                'number'=>Input::get('number'),
+                'designation'=>Input::get('designation'),
+                'courseid'=>Input::get('courseid'),
+                'speciality'=>Input::get('speciality'),
+                'name'=>Input::get('name') ,
+                'email'=>Input::get('email'),
+             ];
+
             $teacher = new Teachers();
-            $new_teacher = $teacher->update($request,$Tid);
+            $new_teacher = $teacher->update_teacher($input,$Tid);
 
             $user=new User();
-            $new_user = $user->update_teacher($request,$Tid);
+            $new_user = $user->update_teacher($input,$Tid);
       
         }catch(ValidationException $e){
             DB::rollback();
@@ -162,10 +183,10 @@ class TeacherController extends Controller
         try{
 
             $teacher = new Teachers();
-            $teacher->delete($Tid);
+            $teacher->delete_teacher($Tid);
 
             $user=new User();
-            $user->delete_teacher($Tid);
+            $user->delete_user($Tid);
       
         }catch(ValidationException $e){
             DB::rollback();

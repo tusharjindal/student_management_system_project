@@ -61,11 +61,23 @@ class StudentController extends Controller
         DB::beginTransaction();
         try{
 
-            $student = new Student();
-            $new_student = $student->store($request);
+            $input = [
+                'Studentid' =>Input::get('Studentid'),
+                'number' =>Input::get('number'),
+                'Birth' =>Input::get('Birth'),
+                'Address' =>Input::get('Address'),
+                'courseid' =>Input::get('courseid'),
+                'Grades'=>Input::get('Grades'),
+                'Mentor'=>Input::get('Mentor') ,
+                'name'=>Input::get('name') ,
+                'email'=>Input::get('email'),
+             ];
+
+            $student = new Students();
+            $new_student = $student->store($input);
 
             $user=new User();
-            $new_user = $user->store_student($request);
+            $new_user = $user->store_student($input);
             // $newStudent= Students::create([
             //         'Studentid'=> Input::get('Studentid'),
             //         'number'=> Input::get('number'),
@@ -142,11 +154,22 @@ class StudentController extends Controller
         DB::beginTransaction();
         try{
 
+            $input = [
+
+                'number' =>Input::get('number'),
+                'Birth' =>Input::get('Birth'),
+                'Address' =>Input::get('Address'),
+                'Grades'=>Input::get('Grades'),
+                'Mentor'=>Input::get('Mentor') ,
+                'name'=>Input::get('name') ,
+                'email'=>Input::get('email'),
+             ];
+
             $student = new Student();
-            $new_student = $student->update($request,$Studentid);
+            $new_student = $student->update_student($input,$Studentid);
 
             $user=new User();
-            $new_user = $user->update_student($request,$Studentid);
+            $new_user = $user->update_student($input,$Studentid);
       
         }catch(ValidationException $e){
             DB::rollback();
@@ -168,10 +191,10 @@ class StudentController extends Controller
         try{
 
             $student = new Student();
-            $student->delete($Studentid);
+            $student->delete_student($Studentid);
 
             $user=new User();
-            $user->delete_student($Studentid);
+            $user->delete_user($Studentid);
       
         }catch(ValidationException $e){
             DB::rollback();
