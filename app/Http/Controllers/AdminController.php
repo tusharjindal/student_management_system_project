@@ -154,10 +154,10 @@ class AdminController extends Controller
         try{
 
             $admin = new Admin();
-            $new_admin = $admin->delete($adminid);
+            $admin->delete($adminid);
 
             $user=new User();
-            $new_user = $user->delete_admin($adminid);
+            $user->delete_admin($adminid);
       
         }catch(ValidationException $e){
             DB::rollback();

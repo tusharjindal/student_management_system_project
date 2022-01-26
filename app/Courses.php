@@ -10,12 +10,12 @@ class Courses extends Model
     public $incrementing = false;
 
     public function fetch_all(){
-        $courses=Courses::paginate(2);
+        $courses=self::paginate(2);
         return $courses;
     }
 
     public function store($request){
-        $course=new Courses();
+        $course=new self();
         $course->Cid=$request->input('Cid');
         $course->CourseName=$request->input('CourseName');
         $course->save();
@@ -24,13 +24,13 @@ class Courses extends Model
     }
 
     public function find($id){
-        $courses=Courses::find($id);  
+        $courses=self::find($id);  
         return $courses;
     }
 
     public function update($request, $Cid){
 
-        $course = Courses::find($Cid);  
+        $course = self::find($Cid);  
         $course->CourseName =$request->get('CourseName');  
         $course->save();  
 
@@ -38,18 +38,18 @@ class Courses extends Model
 
     Public function delete($Cid){
 
-        $course=Courses::find($Cid);  
+        $course=self::find($Cid);  
         $course->delete();  
     }
 
     public function get_name_id(){
-        $courses = Courses::pluck("CourseName","Cid");
+        $courses = self::pluck("CourseName","Cid");
         return $courses;
     }
     
     public function search($search){
 
-        $course = Courses::where('courses.name', 'LIKE', '%' . $search . '%')
+        $course = self::where('courses.name', 'LIKE', '%' . $search . '%')
         ->paginate(2);
         return $course;
     }

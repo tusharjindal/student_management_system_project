@@ -11,19 +11,19 @@ class Teachers extends Model
     public $incrementing = false;
 
     public function fetch_all(){
-        $teachers=Teachers::leftJoin('users', 'users.id', '=', 'teachers.Tid')
+        $teachers=self::leftJoin('users', 'users.id', '=', 'teachers.Tid')
         ->paginate(3);
         return $teachers;
     }
 
     public function find($id){
-        $teacher=Teachers::find($id); 
+        $teacher=self::find($id); 
         return $teacher;
     }
 
     public function store($request){
 
-        $teacher=new Teachers();
+        $teacher=new self();
         $teacher->Tid=$request->input('Tid');
         $teacher->number=$request->input('number');
         $teacher->designation=$request->input('designation');
@@ -35,7 +35,7 @@ class Teachers extends Model
 
     public function update($request,$Tid){
 
-        $teacher = Teachers::find($Tid);  
+        $teacher = self::find($Tid);  
         $teacher->number =$request->get('number');  
         $teacher->designation =$request->get('designation');  
         $teacher->speciality =$request->get('speciality');  
@@ -45,13 +45,13 @@ class Teachers extends Model
     }
 
     public function delete($Tid){
-        $teacher=Teachers::find($Tid);  
+        $teacher=self::find($Tid);  
         $teacher->delete();  
     }
 
     public function search($search){
 
-        $teacher = Teachers::leftJoin('users','users.id', '=' , 'teachers.Tid')
+        $teacher = self::leftJoin('users','users.id', '=' , 'teachers.Tid')
         ->where('users.name', 'LIKE', '%' . $search . '%')
         ->paginate(2);
         return $teacher;

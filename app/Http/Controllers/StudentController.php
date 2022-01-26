@@ -168,10 +168,10 @@ class StudentController extends Controller
         try{
 
             $student = new Student();
-            $new_student = $student->delete($Studentid);
+            $student->delete($Studentid);
 
             $user=new User();
-            $new_user = $user->delete_student($Studentid);
+            $user->delete_student($Studentid);
       
         }catch(ValidationException $e){
             DB::rollback();

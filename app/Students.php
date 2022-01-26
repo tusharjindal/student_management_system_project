@@ -17,18 +17,18 @@ class Students extends Model
     }
 
     public function fetch_all(){
-        $students=Students::leftJoin('users', 'users.id', '=', 'students.Studentid')
+        $students=self::leftJoin('users', 'users.id', '=', 'students.Studentid')
         ->paginate(3);
         return $students;
     }
 
     public function find($id){
-        $student= Students::find($id);  
+        $student= self::find($id);  
         return $student;
     }
 
     public function store($request){
-        $student=new Students();
+        $student=new self();
         $student->Studentid=$request->input('Studentid');
         $student->number=$request->input('number');
         $student->Birth=$request->input('Birth');
@@ -42,7 +42,7 @@ class Students extends Model
 
     public function update($request,$Studentid){
 
-        $student = Students::find($Studentid);  
+        $student = self::find($Studentid);  
         $student->number =$request->get('number');  
         $student->Birth =$request->get('Birth');  
         $student->Address =$request->get('Address');  
@@ -54,12 +54,12 @@ class Students extends Model
     }
 
     public function delete($Studentid){
-        $student=Students::find($Studentid);  
+        $student=self::find($Studentid);  
         $student->delete();  
     }
     public function search($search){
 
-        $student = Students::leftJoin('users','users.id', '=' , 'students.Studentid')
+        $student = self::leftJoin('users','users.id', '=' , 'students.Studentid')
         ->where('users.name', 'LIKE', '%' . $search . '%')
         ->paginate(2);
         return $student;

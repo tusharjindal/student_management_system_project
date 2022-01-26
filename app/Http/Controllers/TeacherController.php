@@ -162,10 +162,10 @@ class TeacherController extends Controller
         try{
 
             $teacher = new Teachers();
-            $new_teacher = $teacher->delete($Tid);
+            $teacher->delete($Tid);
 
             $user=new User();
-            $new_user = $user->delete_teacher($Tid);
+            $user->delete_teacher($Tid);
       
         }catch(ValidationException $e){
             DB::rollback();
