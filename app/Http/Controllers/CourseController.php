@@ -65,7 +65,8 @@ class CourseController extends Controller
      */
     public function edit($id)
     {
-        $course= Courses::find($id);  
+        $find_course=new Courses();
+        $course= $find_course->find($id);
         return view('courses.edit',compact('course'));  
     }
 
@@ -78,17 +79,13 @@ class CourseController extends Controller
      */
     public function update(Request $request, $Cid)
     {
-        // $request->validate([  
-        //     'CourseName'=>'required'
-        // ]);  
   
         $this->validate($request, [
             'CourseName' => 'required|min:4',
         ]);
-        
-        $course = Courses::find($Cid);  
-        $course->CourseName =$request->get('CourseName');  
-        $course->save();  
+
+        $course=new Courses();
+        $course->update($request, $Cid);
         return redirect('/home');
     }
 
@@ -100,8 +97,8 @@ class CourseController extends Controller
      */
     public function destroy($Cid)
     {
-        $course=Courses::find($Cid);  
-        $course->delete();  
+        $course=new Courses();
+        $course->delete($Cid);
         return redirect('/home');
     }
 
