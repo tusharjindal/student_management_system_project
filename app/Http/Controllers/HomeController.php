@@ -128,7 +128,8 @@ class HomeController extends Controller
        
             if ($role == User::ROLE_TYPE_ADMIN) 
             {
-                $admins= Admin::find($id); 
+                $find_admin=new Admin(); 
+                $admins=$find_admin->find($id); 
                 $find_user=new User(); 
                 $user=$find_user->find($id);
                 return view('admin.showprofile', compact('admins'),compact('user')); 
