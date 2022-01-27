@@ -128,20 +128,23 @@ class HomeController extends Controller
        
             if ($role == User::ROLE_TYPE_ADMIN) 
             {
-                $admins= Admin::find($id);  
-                $user= User::find($id);  
+                $admins= Admin::find($id); 
+                $find_user=new User(); 
+                $user=$find_user->find($id);
                 return view('admin.showprofile', compact('admins'),compact('user')); 
             } 
             else if($role ==User::ROLE_TYPE_TEACHER ) 
             {
                 $teachers= Teachers::find($id);  
-                $user= User::find($id);  
+                $find_user=new User(); 
+                $user=$find_user->find($id); 
                 return view('teachers.showprofile', compact('teachers'),compact('user')); 
             }
             else if($role ==User::ROLE_TYPE_STUDENT) 
             {
                 $students= Students::find($id);  
-                $user= User::find($id);  
+                $find_user=new User(); 
+                $user=$find_user->find($id);  
                 return view('students.showprofile', compact('students'),compact('user')); 
             }
             else
