@@ -14,11 +14,14 @@ class TeacherController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $teacher=new Teachers();
         $teachers=$teacher->fetch_all();
-        return view('teachers.index', compact('teachers'));  
+        if ($request->ajax()) {
+            return view('teachers.index', compact('teachers'));
+        }
+        return view('teachers.new', compact('teachers'));    
     }
 
     /**
@@ -54,8 +57,10 @@ class TeacherController extends Controller
         ]);
 
      
-        DB::beginTransaction();
+       
         try{
+
+            DB::beginTransaction();
 
             $input = [
 
@@ -74,6 +79,9 @@ class TeacherController extends Controller
             $user=new User();
             $new_user = $user->store_teacher($input);
 
+            DB::commit();
+            return redirect('/home');
+
             // $newTeacher= Teachers::create([
                 
             //     'Tid'=>Input::get('Tid'),
@@ -91,12 +99,13 @@ class TeacherController extends Controller
             //         'password' =>'secret'
             //     ]);
                 
-        }catch(ValidationException $e){
+        }catch(Exception $e){
             DB::rollback();
             throw $e;
+            return redirect('/home');
+
         }
-            DB::commit();
-        return redirect('/home');
+           
     }
 
     /**
@@ -144,9 +153,10 @@ class TeacherController extends Controller
             
         ]);
 
-        DB::beginTransaction();
+        
         try{
 
+            DB::beginTransaction();
             $input = [
 
                 'number'=>Input::get('number'),
@@ -162,13 +172,17 @@ class TeacherController extends Controller
 
             $user=new User();
             $new_user = $user->update_teacher($input,$Tid);
+
+            DB::commit();
+            return redirect('/home');
       
-        }catch(ValidationException $e){
+        }catch(Exception $e){
             DB::rollback();
             throw $e;
+            return redirect('/home');
+
         }
-        DB::commit();
-        return redirect('/home');
+     
     }
 
     /**
@@ -179,21 +193,27 @@ class TeacherController extends Controller
      */
     public function destroy($Tid)
     {
-        DB::beginTransaction();
+       
         try{
+
+            DB::beginTransaction();
 
             $teacher = new Teachers();
             $teacher->delete_teacher($Tid);
 
             $user=new User();
             $user->delete_user($Tid);
+
+            DB::commit();
+            return redirect('/home');
       
-        }catch(ValidationException $e){
+        }catch(Exception $e){
             DB::rollback();
             throw $e;
+            return redirect('/home');
+
         }
-        DB::commit();
-        return redirect('/home');
+      
     }
 
     public function search_teacher(Request $request){

@@ -2,6 +2,7 @@
 <!doctype html>
 <html lang="en">
   <head>
+  <script src="js/page.js"></script>
     <style>
       .table-success{
           margin-top: 100px;
@@ -148,7 +149,7 @@
 </tbody>  
 </table>
         </div>
-{{$students->links('pagination::bootstrap-4')}}
+        {!! $students->render('pagination::bootstrap-4') !!}
         </div>
     <!-- Optional JavaScript; choose one of the two! -->
 

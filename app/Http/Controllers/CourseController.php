@@ -11,11 +11,14 @@ class CourseController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $course=new Courses();
         $courses = $course->fetch_all();  
-        return view('courses.index', compact('courses'));  
+        if ($request->ajax()) {
+            return view('courses.index', compact('courses'));  
+        }
+        return view('courses.new', compact('courses'));  
     }
 
     /**

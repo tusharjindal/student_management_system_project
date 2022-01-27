@@ -16,11 +16,18 @@ class StudentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $student=new Students();
+
+        $student = new Students();
         $students=$student->fetch_all();
-        return view('students.index', compact('students'));  
+        if ($request->ajax()) {
+            return view('students.index', compact('students'));
+        }
+        return view('students.new',compact('students'));
+        // $student=new Students();
+        // $students=$student->fetch_all();
+        // return view('students.index', compact('students'));  
     }
 
     /**
@@ -58,7 +65,6 @@ class StudentController extends Controller
 
      
        
-        DB::beginTransaction();
         try{
 
             $input = [
@@ -73,11 +79,16 @@ class StudentController extends Controller
                 'email'=>Input::get('email'),
              ];
 
+            DB::beginTransaction();
+
             $student = new Students();
             $new_student = $student->store($input);
 
             $user=new User();
             $new_user = $user->store_student($input);
+
+            DB::commit();
+            return redirect('/home');
             // $newStudent= Students::create([
             //         'Studentid'=> Input::get('Studentid'),
             //         'number'=> Input::get('number'),
@@ -96,12 +107,13 @@ class StudentController extends Controller
             //         'password' =>'secret'
             //     ]);
                 
-        }catch(ValidationException $e){
+        }catch(Exception $e){
             DB::rollback();
             throw $e;
+            return redirect('/home');
+
         }
-            DB::commit();
-        return redirect('/home');
+
        
     }
 
@@ -177,8 +189,7 @@ class StudentController extends Controller
       
         }catch(Exception $e){
             DB::rollback();
-            throw $e;
-            return redirect('/home');
+            return redirect('/home')->with('error', 'failed to update current student');
 
         }
       
@@ -192,21 +203,26 @@ class StudentController extends Controller
      */
     public function destroy($Studentid)
     {
-        DB::beginTransaction();
+       
         try{
 
+            DB::beginTransaction();
             $student = new Students();
             $student->delete_student($Studentid);
 
             $user=new User();
             $user->delete_user($Studentid);
+
+            DB::commit();
+            return redirect('/home');
       
-        }catch(ValidationException $e){
+        }catch(Exception $e){
             DB::rollback();
             throw $e;
+            return redirect('/home');
+
         }
-        DB::commit();
-        return redirect('/home');
+       
     }
 
     public function search_student(Request $request){

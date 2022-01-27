@@ -2,6 +2,8 @@
 <!doctype html>
 <html lang="en">
   <head>
+  <script src="js/page.js"></script>
+
     <style>
       body{
         background-color: aliceblue;
@@ -123,7 +125,7 @@
 @endforeach  
 </tbody>  
 </table>
-{{$teachers->links('pagination::bootstrap-4')}}
+{!! $teachers->render('pagination::bootstrap-4') !!}
         </div>
     <!-- Optional JavaScript; choose one of the two! -->
 
