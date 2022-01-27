@@ -135,14 +135,16 @@ class HomeController extends Controller
             } 
             else if($role ==User::ROLE_TYPE_TEACHER ) 
             {
-                $teachers= Teachers::find($id);  
+                $find_teacher=new Teachers(); 
+                $teacher=$find_teacher->find($id); 
                 $find_user=new User(); 
                 $user=$find_user->find($id); 
                 return view('teachers.showprofile', compact('teachers'),compact('user')); 
             }
             else if($role ==User::ROLE_TYPE_STUDENT) 
             {
-                $students= Students::find($id);  
+                $find_student=new Students(); 
+                $students=$find_student->find($id); 
                 $find_user=new User(); 
                 $user=$find_user->find($id);  
                 return view('students.showprofile', compact('students'),compact('user')); 
