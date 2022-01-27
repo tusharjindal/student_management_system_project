@@ -22,7 +22,7 @@ class Students extends Model
         return $students;
     }
 
-    public function find($id){
+    public function find_student($id){
         $student= self::find($id);  
         return $student;
     }

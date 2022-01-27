@@ -124,10 +124,12 @@ class StudentController extends Controller
      */
     public function edit($id)
     {
+      
+
         $student_find= new Students();
-        $student=$student_find->find($id);
+        $student=$student_find->find_student($id);
         $user_find=new User();
-        $user=$user_find->find($id);
+        $user=$user_find->find_user($id);
         return view('students.edit', compact('student'),compact('user'));  
     }
 
@@ -151,9 +153,9 @@ class StudentController extends Controller
            'Mentor' => 'required',
         ]);
 
-        DB::beginTransaction();
+       
         try{
-
+            DB::beginTransaction();
             $input = [
 
                 'number' =>Input::get('number'),
@@ -170,13 +172,16 @@ class StudentController extends Controller
 
             $user=new User();
             $new_user = $user->update_student($input,$Studentid);
+            DB::commit();
+            return redirect('/home');
       
-        }catch(ValidationException $e){
+        }catch(Exception $e){
             DB::rollback();
             throw $e;
+            return redirect('/home');
+
         }
-        DB::commit();
-        return redirect('/home');
+      
     }
 
     /**
@@ -190,7 +195,7 @@ class StudentController extends Controller
         DB::beginTransaction();
         try{
 
-            $student = new Student();
+            $student = new Students();
             $student->delete_student($Studentid);
 
             $user=new User();

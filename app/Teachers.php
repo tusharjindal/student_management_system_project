@@ -16,7 +16,7 @@ class Teachers extends Model
         return $teachers;
     }
 
-    public function find($id){
+    public function find_teacher($id){
         $teacher=self::find($id); 
         return $teacher;
     }

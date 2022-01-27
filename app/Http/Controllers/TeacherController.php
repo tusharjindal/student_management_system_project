@@ -119,9 +119,9 @@ class TeacherController extends Controller
     public function edit($id)
     {
         $teacher_find=new Teachers();
-        $teacher= $teacher_find->find($id); 
+        $teacher= $teacher_find->find_teacher($id); 
         $user_find=new User();
-        $user=$user_find->find($id);
+        $user=$user_find->find_user($id);
         return view('teachers.edit', compact('teacher'),compact('user')); 
     }
 

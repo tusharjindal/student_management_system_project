@@ -16,7 +16,7 @@ class Admin extends Model
         return $admins;
     }
 
-    public function find($id){
+    public function find_admin($id){
         $admin= self::find($id);  
         return $admin;
     }

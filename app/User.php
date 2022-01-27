@@ -31,7 +31,7 @@ class User extends Authenticatable
     ];
 
 
-    public function find($id){
+    public function find_user($id){
         $user= self::find($id);  
         return $user;
     }

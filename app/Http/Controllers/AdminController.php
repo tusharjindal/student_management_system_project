@@ -108,9 +108,9 @@ class AdminController extends Controller
     public function edit($id)
     {
         $admin_find= new Admin();
-        $admin=$admin_find->find($id);
+        $admin=$admin_find->find_admin($id);
         $user_find=new User();
-        $user=$user_find->find($id);
+        $user=$user_find->find_user($id);
         return view('admin.edit', compact('admin'),compact('user')); 
     }
 
