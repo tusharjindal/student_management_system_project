@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Students;
 use App\Courses;
 use App\User;
+use App\Http\Requests\PostRequest;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Hash;
@@ -49,22 +50,10 @@ class StudentController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(PostRequest $request)
     {
-        $this->validate($request, [
-            'Studentid' => 'required',
-            'email' => 'required|email',
-            'name' => 'required|min:4',
-            'number' => 'required',
-            'Address' => 'required',
-            'courseid' => 'required',
-            'Birth' => 'required',
-            'Grades' => 'required',
-            'Mentor' => 'required',
-        ]);
+      
 
-     
-       
         try{
 
             $input = [

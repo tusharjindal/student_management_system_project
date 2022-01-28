@@ -56,59 +56,104 @@
   <div class="form-group">
                             <div class="form-group">
                                 <label>Roll Number</label>
-                                <input name="Studentid" type="text" class="form-control"  placeholder="Enter unique Roll Number">
-                            </div>
+                                <input name="Studentid" type="text" class="form-control{{ $errors->has('Studentid') ? ' is-invalid' : '' }}"  placeholder="Enter unique Roll Number">
+                                @if ($errors->has('Studentid'))
+                                    <span class="invalid-feedback">
+                                        <strong>{{ $errors->first('Studentid') }}</strong>
+                                    </span>
+                                @endif
+                              </div>
                             <div class="form-group">
                                 <label>Name</label>
-                                <input name="name" type="text" class="form-control"  placeholder="Enter name">
-                            </div>
+                                <input name="name" type="text" class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}"  placeholder="Enter name">
+                                @if ($errors->has('name'))
+                                    <span class="invalid-feedback">
+                                        <strong>{{ $errors->first('name') }}</strong>
+                                    </span>
+                                @endif
+                              </div>
                             <div class="form-group">
                                 <label>Email</label>
-                                <input name="email" type="text" class="form-control"  placeholder="Enter email">
-                            </div>
+                                <input name="email" type="text" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}"  placeholder="Enter email">
+                                @if ($errors->has('email'))
+                                    <span class="invalid-feedback">
+                                        <strong>{{ $errors->first('email') }}</strong>
+                                    </span>
+                                @endif
+                              </div>
                             <div class="form-group">
                                 <label>Phone Number</label>
-                                <input name="number" type="text" class="form-control"  placeholder="Enter number">
-                            </div>
+                                <input name="number" type="text" class="form-control{{ $errors->has('number') ? ' is-invalid' : '' }}"  placeholder="Enter number">
+                                @if ($errors->has('number'))
+                                    <span class="invalid-feedback">
+                                        <strong>{{ $errors->first('number') }}</strong>
+                                    </span>
+                                @endif
+                              </div>
                             <div class="form-group">
                                 <label>Date of Birth</label>
-                                <input name="Birth" type="date" class="form-control"  placeholder="Enter dob">
-                            </div>
+                                <input name="Birth" type="date" class="form-control{{ $errors->has('Birth') ? ' is-invalid' : '' }}"  placeholder="Enter dob">
+                                @if ($errors->has('Birth'))
+                                    <span class="invalid-feedback">
+                                        <strong>{{ $errors->first('Birth') }}</strong>
+                                    </span>
+                                @endif
+                              </div>
                             <div class="form-group">
                                 <label>Address</label>
-                                <input name="Address" type="text" class="form-control"  placeholder="Enter Address">
-                            </div>
+                                <input name="Address" type="text" class="form-control{{ $errors->has('Address') ? ' is-invalid' : '' }}"  placeholder="Enter Address">
+                                @if ($errors->has('Address'))
+                                    <span class="invalid-feedback">
+                                        <strong>{{ $errors->first('Address') }}</strong>
+                                    </span>
+                                @endif
+                              </div>
                             <div class="form-group">
                             <label for="course">Select course</label>
-                            <select name="courseid" class="form-control" style="width:770px">
+                            <select name="courseid" class="form-control{{ $errors->has('courseid') ? ' is-invalid' : '' }}" style="width:770px">
                                 <option value="">--- Select Course ---</option>
                                 @foreach ($courses as $key => $value)
                                 <option value="{{ $key }}">{{ $value }}</option>
                                 @endforeach
                             </select>
-                            </div>
+                            @if ($errors->has('courseid'))
+                                    <span class="invalid-feedback">
+                                        <strong>{{ $errors->first('courseid') }}</strong>
+                                    </span>
+                                @endif  
+                          </div>
                            
                             <div class="form-group">
                                 <label>Grades</label>
-                                <input name="Grades" type="text" class="form-control"  placeholder="Enter grades">
-                            </div>
+                                <input name="Grades" type="text" class="form-control{{ $errors->has('Grades') ? ' is-invalid' : '' }}"  placeholder="Enter grades">
+                                @if ($errors->has('Grades'))
+                                    <span class="invalid-feedback">
+                                        <strong>{{ $errors->first('Grades') }}</strong>
+                                    </span>
+                                @endif
+                              </div>
                             <div class="form-group">
                                 <label>Mentor</label>
-                                <input name="Mentor" type="text" class="form-control"  placeholder="Enter mentor Assigned to student"><br/> 
-                            </div>
+                                <input name="Mentor" type="text" class="form-control{{ $errors->has('Mentor') ? ' is-invalid' : '' }}"  placeholder="Enter mentor Assigned to student">
+                                @if ($errors->has('Mentor'))
+                                    <span class="invalid-feedback">
+                                        <strong>{{ $errors->first('Mentor') }}</strong>
+                                    </span>
+                                @endif
+                              </div>
                             <div>
                             <input type="submit" class="btn btn-info" value="Submit">
                             <input type="reset" class="btn btn-warning" value="Reset">
                             </div>
                             <input type="hidden" name="_token" value="{{ csrf_token() }}" />
 
-                            @if ($errors->any())
+                            <!-- @if ($errors->any())
                            <div class="alert alert-danger">
                            <script>     
                            alert("please fill the form properly"); 
                            </script>
                            </div>
-                           @endif
+                           @endif -->
  
         <!--error ends-->
 </form>
