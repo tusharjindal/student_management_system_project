@@ -22,7 +22,7 @@ class Students extends Model
         return $students;
     }
 
-    public function fetch_all_api($page_number){
+    public function fetch_all_api($page_number,$page_size){
 
         if($page_number<0 || $page_number==null)
         {
@@ -32,11 +32,16 @@ class Students extends Model
         {
             $page_number=(int)($page_number);  //floor
         }
-       
+       if($page_size==null){
+           $page_size=2;
+       }
         $students=self::select('users.name','users.email','students.Studentid','students.number','students.Birth','students.Address','students.Grades','students.Mentor')
-        ->leftJoin('users', 'users.id', '=', 'students.Studentid')->offset($page_number)->limit(2)->get();
-        
+        ->leftJoin('users', 'users.id', '=', 'students.Studentid')->offset($page_number)
+        ->limit($page_size)
+        ->get();
         return $students;
+        
+        
     }
 
     public function find_student($id){
@@ -73,6 +78,10 @@ class Students extends Model
         $student->save();  
         return $student;
 
+    }
+
+    public function count_students(){
+        return self::count();
     }
 
     public function delete_student($Studentid){

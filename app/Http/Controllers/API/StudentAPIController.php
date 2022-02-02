@@ -21,6 +21,7 @@ class StudentAPIController extends APIBaseController
     {
         $id=$request->input('Studentid');
         $page=$request->input('page_number');
+        $page_size=$request->input('page_size');
     if($id!=null)
     {
         $validator = Validator::make($request->all(), [ 'Studentid'=>'required', ]);
@@ -44,7 +45,7 @@ class StudentAPIController extends APIBaseController
     else{
         try{
         $student1 = new Students();
-        $students=$student1->fetch_all_api($page);
+        $students=$student1->fetch_all_api($page,$page_size);
         if($students==null){
             return $this->sendError('failed to find any student');
         }
