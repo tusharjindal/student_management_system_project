@@ -266,8 +266,6 @@ ul.ba {
     
   </ul>
 
-
-
         </div>
 
   <!-- <div class="card" style="width: 10rem;">

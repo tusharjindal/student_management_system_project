@@ -17,7 +17,13 @@ class Students extends Model
     }
 
     public function fetch_all(){
-        $students=self::leftJoin('users', 'users.id', '=', 'students.Studentid')
+        $students=self::leftJoin('users', 'users.id', '=', 'students.Studentid') 
+        ->paginate(3);
+        return $students;
+    }
+
+    public function fetch_all_api(){
+        $students=self::select('users.name','users.email','students.Studentid','students.number','students.Birth','students.Address','students.Grades','students.Mentor')->leftJoin('users', 'users.id', '=', 'students.Studentid') 
         ->paginate(3);
         return $students;
     }
@@ -27,6 +33,11 @@ class Students extends Model
         return $student;
     }
 
+    public function findApiId($find_api_id)
+    {
+        $find_id = self::where('Studentid',$find_api_id)->first();
+        return $find_id;
+    }
     public function store($input){
         $student=new self();
         $student->Studentid=$input['Studentid'];

@@ -1,0 +1,148 @@
+<?php
+use App\Http\Requests\PostRequest;
+use Illuminate\Support\Facades\Input;
+namespace App\Http\Controllers\API;
+use Illuminate\Support\Facades\Input;
+use DB;
+use Illuminate\Support\Facades\Validator;
+use App\Http\Controllers\API\APIBaseController as APIBaseController;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\Students;
+use App\User;
+class StudentAPIController extends APIBaseController
+{
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index(Request $request)
+    {
+
+        $validator = Validator::make($request->all(), [ 'Studentid'=>'required', ]);
+      
+        if ($validator->fails()) {    
+            return $this->sendError('Student ID is required');
+        }
+
+        $id=$request->input('Studentid');
+        $student1 = new Students();
+        $result=$student1->findApiId($id);
+        if($result==null){
+            return $this->sendError('failed to find the student');
+        }
+        else{
+        return $this->sendResponse($result,'Students retrieved successfully.');
+        }
+      
+    }
+
+    public function get_all(){
+        $student1 = new Students();
+        $students=$student1->fetch_all();
+        if($students==null){
+            return $this->sendError('failed to find any student');
+        }
+        else{
+        return $this->sendResponse($students,'Students retrieved successfully.');
+        }
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        //
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store_student(Request $request)
+    {
+        try{
+
+            $input = [
+                'Studentid' =>Input::get('Studentid'),
+                'number' =>Input::get('number'),
+                'Birth' =>Input::get('Birth'),
+                'Address' =>Input::get('Address'),
+                'courseid' =>Input::get('courseid'),
+                'Grades'=>Input::get('Grades'),
+                'Mentor'=>Input::get('Mentor') ,
+                'name'=>Input::get('name') ,
+                'email'=>Input::get('email'),
+             ];
+
+            DB::beginTransaction();
+
+            $student = new Students();
+            $new_student = $student->store($input);
+            
+            $user=new User();
+            $new_user = $user->store_student($input);
+
+            DB::commit();
+            return $this->sendResponse($new_student,'Students created successfully.');
+                
+        }catch(Exception $e){
+            DB::rollback();
+        
+            return $this->sendResponse('failed to create student');
+
+        }
+
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
+    {
+        //
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        //
+    }
+}
