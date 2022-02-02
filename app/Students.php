@@ -22,9 +22,20 @@ class Students extends Model
         return $students;
     }
 
-    public function fetch_all_api(){
-        $students=self::select('users.name','users.email','students.Studentid','students.number','students.Birth','students.Address','students.Grades','students.Mentor')->leftJoin('users', 'users.id', '=', 'students.Studentid') 
-        ->paginate(3);
+    public function fetch_all_api($page_number){
+
+        if($page_number<0 || $page_number==null)
+        {
+        $page_number=1;
+        }
+        else if(is_float($page_number))
+        {
+            $page_number=(int)($page_number);  //floor
+        }
+       
+        $students=self::select('users.name','users.email','students.Studentid','students.number','students.Birth','students.Address','students.Grades','students.Mentor')
+        ->leftJoin('users', 'users.id', '=', 'students.Studentid')->offset($page_number)->limit(2)->get();
+        
         return $students;
     }
 

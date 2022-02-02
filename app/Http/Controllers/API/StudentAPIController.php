@@ -19,13 +19,15 @@ class StudentAPIController extends APIBaseController
      */
     public function index(Request $request)
     {
-
+        $id=$request->input('Studentid');
+        $page=$request->input('page_number');
+    if($id!=null)
+    {
         $validator = Validator::make($request->all(), [ 'Studentid'=>'required', ]);
-      
         if ($validator->fails()) {    
             return $this->sendError('Student ID is required');
         }
-
+        try{
         $id=$request->input('Studentid');
         $student1 = new Students();
         $result=$student1->findApiId($id);
@@ -35,19 +37,28 @@ class StudentAPIController extends APIBaseController
         else{
         return $this->sendResponse($result,'Students retrieved successfully.');
         }
-      
+        }catch(Exception $e){
+        return $this->sendError('something went wrong');
+        }
     }
-
-    public function get_all(){
+    else{
+        try{
         $student1 = new Students();
-        $students=$student1->fetch_all();
+        $students=$student1->fetch_all_api($page);
         if($students==null){
             return $this->sendError('failed to find any student');
         }
         else{
         return $this->sendResponse($students,'Students retrieved successfully.');
         }
+    }catch(Exception $e){
+        return $this->sendError('something went wrong');
     }
+    }
+      
+    }
+
+    
 
     /**
      * Show the form for creating a new resource.
@@ -65,9 +76,25 @@ class StudentAPIController extends APIBaseController
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store_student(Request $request)
+    public function store(Request $request)
     {
         try{
+
+            $validator = Validator::make($request->all(), [ 
+                'Studentid' => 'required',
+                'email' => 'required|email',
+                'name' => 'required|min:4',
+                'number' => 'required',
+                'Address' => 'required',
+                'courseid' => 'required',
+                'Birth' => 'required',
+                'Grades' => 'required',
+                'Mentor' => 'required',
+                ]);
+
+            if ($validator->fails()) {    
+                return $this->sendError('Enter details correctly');
+            }
 
             $input = [
                 'Studentid' =>Input::get('Studentid'),
