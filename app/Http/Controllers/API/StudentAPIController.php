@@ -55,11 +55,8 @@ class StudentAPIController extends APIBaseController
 
             $student = new Students();
             $TotalRecords = $student->count_students();
-            $url = $_SERVER['REQUEST_URI']; 
-            $url_components = parse_url($url); 
-            parse_str($url_components['query'], $params); 
-            $pageNumberCurrent = $params['page_number'];
-            $pageSizeCurrent = $params['page_size'];
+            $pageNumberCurrent = $page;
+            $pageSizeCurrent = $page_size;
             $total_pages = ceil($TotalRecords/$pageSizeCurrent);
             $pageNumberNext = $pageNumberCurrent + 1;
 
