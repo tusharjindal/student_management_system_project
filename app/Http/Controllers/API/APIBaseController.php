@@ -7,29 +7,8 @@ use App\Http\Controllers\Controller;
 
 class APIBaseController extends Controller
 {
-    public function sendResponse($result, $message)
-    {
-        $student = new Students();
-        $TotalRecords = $student->count_students();
-        $url = $_SERVER['REQUEST_URI']; 
-        $url_components = parse_url($url); 
-        parse_str($url_components['query'], $params); 
-        $pageNumberCurrent = $params['page_number'];
-        $pageSizeCurrent = $params['page_size'];
-        $total_pages = ceil($TotalRecords/$pageSizeCurrent);
-        $pageNumberNext = $pageNumberCurrent + 1;
-
-        if($pageNumberNext >=$total_pages )
-        $nextLink = null;
-        else    
-        $nextLink = 'http://localhost:8000/api/students?page_number='.$pageNumberNext.'&page_size='.$pageSizeCurrent;
-        $pageNumberPrevious = $pageNumberCurrent - 1;
-        
-        if($pageNumberPrevious < 1)
-            $previousLink = null;
-        else
-            $previousLink = 'http://localhost:8000/api/students?page_number='.$pageNumberPrevious.'&page_size='.$pageSizeCurrent;
-            
+    public function sendResponse_all_students($result,$previousLink,$nextLink,$pageSizeCurrent,$total_pages,$message)
+    {        
         $response = [
             'success' => true,
             'data'    => $result,
@@ -38,6 +17,16 @@ class APIBaseController extends Controller
             'previous page URL' => $previousLink,
             'total records per page' => $pageSizeCurrent,
             'total pages' => $total_pages,
+            ];
+            return response()->json($response, 200);
+        }
+
+    public function sendResponse($result,$message)
+    {        
+        $response = [
+            'success' => true,
+            'data'    => $result,
+            'message' => $message,
             ];
             return response()->json($response, 200);
         }

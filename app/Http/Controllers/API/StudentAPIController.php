@@ -22,7 +22,8 @@ class StudentAPIController extends APIBaseController
         $id=$request->input('Studentid');
         $page=$request->input('page_number');
         $page_size=$request->input('page_size');
-    if($id!=null)
+    
+        if($id!=null)
     {
         $validator = Validator::make($request->all(), [ 'Studentid'=>'required', ]);
         if ($validator->fails()) {    
@@ -42,6 +43,7 @@ class StudentAPIController extends APIBaseController
         return $this->sendError('something went wrong');
         }
     }
+
     else{
         try{
         $student1 = new Students();
@@ -50,11 +52,33 @@ class StudentAPIController extends APIBaseController
             return $this->sendError('failed to find any student');
         }
         else{
-        return $this->sendResponse($students,'Students retrieved successfully.');
+
+            $student = new Students();
+            $TotalRecords = $student->count_students();
+            $url = $_SERVER['REQUEST_URI']; 
+            $url_components = parse_url($url); 
+            parse_str($url_components['query'], $params); 
+            $pageNumberCurrent = $params['page_number'];
+            $pageSizeCurrent = $params['page_size'];
+            $total_pages = ceil($TotalRecords/$pageSizeCurrent);
+            $pageNumberNext = $pageNumberCurrent + 1;
+
+            if($pageNumberNext >=$total_pages )
+            $nextLink = null;
+            else    
+            $nextLink = 'http://localhost:8000/api/students?page_number='.$pageNumberNext.'&page_size='.$pageSizeCurrent;
+            $pageNumberPrevious = $pageNumberCurrent - 1;
+            
+            if($pageNumberPrevious < 1)
+                $previousLink = null;
+            else
+                $previousLink = 'http://localhost:8000/api/students?page_number='.$pageNumberPrevious.'&page_size='.$pageSizeCurrent;
+            
+            return $this->sendResponse_all_students($students,$previousLink,$nextLink,$pageSizeCurrent,$total_pages,'Students retrieved successfully.');
         }
-    }catch(Exception $e){
-        return $this->sendError('something went wrong');
-    }
+        }catch(Exception $e){
+            return $this->sendError('something went wrong');
+        }
     }
       
     }
